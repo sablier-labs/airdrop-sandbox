@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="sablierGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="50%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="56" fill="url(#sablierGradient)" opacity="0.1"/>
+  
+  <!-- Main logo shape - stylized "S" representing streaming -->
+  <path d="M30 35 Q45 25 60 35 Q75 45 90 35 Q85 50 75 55 Q65 60 60 60 Q55 60 45 65 Q35 70 30 85 Q45 75 60 85 Q75 95 90 85" 
+        stroke="url(#sablierGradient)" 
+        stroke-width="6" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"
+        filter="url(#glow)"/>
+  
+  <!-- Flow particles -->
+  <circle cx="35" cy="40" r="2" fill="url(#sablierGradient)" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="50" cy="45" r="1.5" fill="url(#sablierGradient)" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="70" cy="75" r="2" fill="url(#sablierGradient)" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="85" cy="80" r="1.5" fill="url(#sablierGradient)" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+</svg>

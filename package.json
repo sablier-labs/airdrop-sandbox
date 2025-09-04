@@ -1,25 +1,33 @@
 {
-  "name": "@prb/next-template",
-  "description": "Next.js template for building web applications.",
+  "name": "@sablier/airdrop-sandbox",
+  "description": "Airdrop sandbox for Sablier Airdrops",
   "version": "1.0.0",
   "dependencies": {
     "@biomejs/biome": "^2.2.2",
     "@sablier/devkit": "github:sablier-labs/devkit#main",
     "@tailwindcss/postcss": "^4.1.12",
+    "@tanstack/react-query": "^5.86.0",
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.8",
+    "@wagmi/connectors": "^5.9.9",
+    "@wagmi/core": "^2.20.3",
     "husky": "^9.1.7",
     "knip": "^5.63.0",
     "lint-staged": "^16.1.5",
+    "lucide-react": "^0.542.0",
+    "merkletreejs": "^0.5.2",
     "next": "^15.5.2",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hot-toast": "^2.6.0",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.9.2",
-    "vercel": "^46.0.4"
+    "vercel": "^46.0.4",
+    "viem": "^2.37.3",
+    "wagmi": "^2.16.9"
   },
   "engines": {
     "node": ">=20"

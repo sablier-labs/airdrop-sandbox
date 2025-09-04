@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="sapienGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4"/>
+      <stop offset="50%" style="stop-color:#0891b2"/>
+      <stop offset="100%" style="stop-color:#0e7490"/>
+    </linearGradient>
+    <linearGradient id="sapienAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#67e8f9"/>
+      <stop offset="100%" style="stop-color:#22d3ee"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#sapienGradient)"/>
+  
+  <!-- Inner highlight -->
+  <circle cx="50" cy="50" r="42" fill="none" stroke="url(#sapienAccent)" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Stylized "S" for SAPIEN -->
+  <path d="M25 30 Q35 20 45 25 Q55 30 65 25 Q75 20 75 30 Q75 40 65 40 Q55 40 45 45 Q35 50 35 60 Q35 70 45 70 Q55 70 65 75 Q75 80 75 75" 
+        stroke="white" 
+        stroke-width="4" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"/>
+  
+  <!-- DNA helix accent representing intelligence/evolution -->
+  <path d="M20 40 Q30 35 40 40 Q50 45 60 40 Q70 35 80 40" 
+        stroke="url(#sapienAccent)" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        fill="none" 
+        opacity="0.6"/>
+  <path d="M20 60 Q30 65 40 60 Q50 55 60 60 Q70 65 80 60" 
+        stroke="url(#sapienAccent)" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        fill="none" 
+        opacity="0.6"/>
+  
+  <!-- Connection lines -->
+  <line x1="25" y1="42" x2="25" y2="58" stroke="url(#sapienAccent)" stroke-width="1" opacity="0.4"/>
+  <line x1="40" y1="40" x2="40" y2="60" stroke="url(#sapienAccent)" stroke-width="1" opacity="0.4"/>
+  <line x1="60" y1="40" x2="60" y2="60" stroke="url(#sapienAccent)" stroke-width="1" opacity="0.4"/>
+  <line x1="75" y1="42" x2="75" y2="58" stroke="url(#sapienAccent)" stroke-width="1" opacity="0.4"/>
+</svg>

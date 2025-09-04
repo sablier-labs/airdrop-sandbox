@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="ethGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#627eea"/>
+      <stop offset="100%" style="stop-color:#3c4fe0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#ethGradient)"/>
+  
+  <!-- Ethereum diamond -->
+  <path d="M50 15 L75 47 L50 60 L25 47 Z" fill="white" opacity="0.8"/>
+  <path d="M50 15 L25 47 L50 60 Z" fill="white" opacity="0.6"/>
+  <path d="M25 50 L50 85 L75 50 L50 63 Z" fill="white" opacity="0.8"/>
+  <path d="M25 50 L50 63 L50 85 Z" fill="white" opacity="0.6"/>
+</svg>

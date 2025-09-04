@@ -1,0 +1,21 @@
+{
+  "campaign": {
+    "description": "Rewarding early supporters and contributors to the Sapien ecosystem",
+    "name": "Friends of Sapien"
+  },
+  "contracts": {
+    "airdropAddress": "0xAB53c52C268FDD5604A13285d9D0a3A9945c37a3",
+    "merkleRoot": "0x5acbd2a701626f878082cbab6b421973dc7eb3e26e3b9d8f6e656b9ff332257a",
+    "tokenAddress": "0xA0b86a33E6441c8C6bF2f15a3eFF9C42c7B2C8D8"
+  },
+  "distribution": {
+    "claimEndDate": "2025-12-31T23:59:59Z",
+    "claimStartDate": "2024-02-01T00:00:00Z",
+    "totalAmount": "5080000000000000000000000",
+    "totalRecipients": 10450
+  },
+  "token": {
+    "decimals": 18,
+    "symbol": "SAPIEN"
+  }
+}

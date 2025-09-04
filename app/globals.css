@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noUnknownAtRules: https://github.com/ghostty-org/ghostty/issues/1972 */
 @import "tailwindcss";
 
 :root {
@@ -18,7 +19,7 @@
   --border: #262626;
   --input: #1a1a1a;
   --ring: #7c3aed;
-  
+
   /* Extended Sablier color palette */
   --sablier-purple-50: #faf5ff;
   --sablier-purple-100: #f3e8ff;
@@ -30,12 +31,12 @@
   --sablier-purple-700: #7c3aed;
   --sablier-purple-800: #6b21a8;
   --sablier-purple-900: #581c87;
-  
+
   /* Glass morphism variables */
   --glass-bg: rgba(26, 26, 26, 0.8);
   --glass-border: rgba(124, 58, 237, 0.2);
   --glass-blur: 16px;
-  
+
   /* Animation timing */
   --animation-fast: 150ms;
   --animation-normal: 200ms;
@@ -44,7 +45,6 @@
   --animation-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* biome-ignore lint/suspicious/noUnknownAtRules: remove when this is fixed https://github.com/biomejs/biome/issues/7223 */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -68,7 +68,7 @@
 }
 
 body {
-  background: 
+  background:
     radial-gradient(ellipse at top left, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
     radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
     linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
@@ -110,7 +110,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -136,18 +137,32 @@ body {
 
 /* Enhanced animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.6); }
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.6);
+  }
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes fade-in-up {
@@ -183,8 +198,13 @@ body {
 }
 
 @keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .gradient-text-static {
@@ -196,20 +216,20 @@ body {
 
 /* Enhanced glow effects */
 .glow-purple {
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(124, 58, 237, 0.3),
     0 0 40px rgba(124, 58, 237, 0.1);
   transition: box-shadow var(--animation-normal) var(--animation-ease);
 }
 
 .glow-purple:hover {
-  box-shadow: 
+  box-shadow:
     0 0 30px rgba(124, 58, 237, 0.5),
     0 0 60px rgba(124, 58, 237, 0.2);
 }
 
 .glow-purple-strong {
-  box-shadow: 
+  box-shadow:
     0 0 30px rgba(124, 58, 237, 0.5),
     0 0 60px rgba(124, 58, 237, 0.3),
     0 0 90px rgba(124, 58, 237, 0.1);
@@ -217,13 +237,13 @@ body {
 }
 
 .glow-green {
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(34, 197, 94, 0.3),
     0 0 40px rgba(34, 197, 94, 0.1);
 }
 
 .glow-red {
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(239, 68, 68, 0.3),
     0 0 40px rgba(239, 68, 68, 0.1);
 }
@@ -262,18 +282,13 @@ body {
 }
 
 .animate-shimmer::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   animation: shimmer 2s ease-in-out infinite;
 }
 
@@ -283,18 +298,60 @@ body {
   transition: box-shadow var(--animation-fast) var(--animation-ease);
 }
 
+/* Interactive elements micro-interactions */
+.micro-interaction {
+  transition: all var(--animation-normal) var(--animation-ease);
+}
+
+.micro-interaction:hover {
+  transform: translateY(-1px);
+}
+
+.micro-interaction:active {
+  transform: translateY(0px) scale(0.98);
+  transition: all var(--animation-fast) var(--animation-ease);
+}
+
+/* Link hover effects */
+.link-hover {
+  position: relative;
+  overflow: hidden;
+  transition: color var(--animation-normal) var(--animation-ease);
+}
+
+.link-hover::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  transition: width var(--animation-normal) var(--animation-ease);
+}
+
+.link-hover:hover::after {
+  width: 100%;
+}
+
+.link-hover:hover {
+  color: var(--primary);
+}
+
 .focus-ring-inset {
   @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary;
 }
 
 /* Button hover effects */
 .button-hover-lift {
-  transition: transform var(--animation-normal) var(--animation-ease), box-shadow var(--animation-normal) var(--animation-ease);
+  transition:
+    transform var(--animation-normal) var(--animation-ease),
+    box-shadow var(--animation-normal) var(--animation-ease);
 }
 
 .button-hover-lift:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 10px 25px rgba(0, 0, 0, 0.3),
     0 0 30px rgba(124, 58, 237, 0.4);
 }
@@ -311,7 +368,7 @@ body {
 
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.4),
     0 0 20px rgba(124, 58, 237, 0.2);
 }

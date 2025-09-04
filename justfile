@@ -47,4 +47,23 @@ start:
         na next build
     fi
     na next start
+    
+# ---------------------------------------------------------------------------- #
+#                                 UTILITIES                                  #
+# ---------------------------------------------------------------------------- #
+
+# Set up environment file
+[group("util")]
+env-setup:
+    @echo "Setting up environment file..."
+    cp .env.example .env.local 2>/dev/null || echo "⚠️  .env.example not found"
+    @echo "✅ Configure .env.local with your environment variables"
+
+# Show project information
+[group("util")]
+info:
+    @echo "🚀 Sablier Airdrop Sandbox"
+    @echo "📦 Next.js $(nlx next --version)"
+    @echo "🟢 Node $(node --version)"
+    @echo "📋 Dependencies: $(cat package.json | jq '.dependencies | length') packages"
 

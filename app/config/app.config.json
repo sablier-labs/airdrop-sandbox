@@ -1,0 +1,17 @@
+{
+  "analytics": {
+    "enableGoogleAnalytics": false,
+    "enableSentryErrorMonitoring": false
+  },
+  "features": {
+    "demoMode": false,
+    "enableEnsResolution": true,
+    "enableSocialSharing": true
+  },
+  "networks": {
+    "chainId": 8453
+  },
+  "ui": {
+    "theme": "default"
+  }
+}

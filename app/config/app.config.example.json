@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Application Configuration",
+  "description": "Main application settings for the Sablier Airdrop template",
+  "analytics": {
+    "description": "Analytics and monitoring configuration",
+    "enableGoogleAnalytics": {
+      "type": "boolean",
+      "description": "Enable Google Analytics 4 tracking",
+      "default": false
+    },
+    "enableSentryErrorMonitoring": {
+      "type": "boolean",
+      "description": "Enable Sentry error monitoring and reporting",
+      "default": false
+    }
+  },
+  "features": {
+    "description": "Feature flags and toggles",
+    "demoMode": {
+      "type": "boolean",
+      "description": "Enable demo mode with mock data for testing",
+      "default": false
+    },
+    "enableEnsResolution": {
+      "type": "boolean",
+      "description": "Enable ENS (Ethereum Name Service) address resolution",
+      "default": true
+    },
+    "enableSocialSharing": {
+      "type": "boolean",
+      "description": "Enable social media sharing functionality",
+      "default": true
+    }
+  },
+  "networks": {
+    "description": "Blockchain network configuration",
+    "chainId": {
+      "type": "number",
+      "description": "Blockchain network for the airdrop (currently only Base is supported: 8453)",
+      "enum": [8453],
+      "default": 8453
+    }
+  },
+  "ui": {
+    "description": "User interface configuration",
+    "theme": {
+      "type": "string",
+      "description": "Application theme preference",
+      "enum": ["default", "dark", "light"],
+      "default": "default"
+    }
+  }
+}

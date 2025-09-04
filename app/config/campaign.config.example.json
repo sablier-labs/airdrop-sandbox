@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Campaign Configuration",
+  "description": "Campaign-specific settings for the airdrop",
+  "campaign": {
+    "description": "Basic campaign information",
+    "name": {
+      "type": "string",
+      "description": "Display name for the airdrop campaign",
+      "example": "Friends of Sapien Airdrop",
+      "maxLength": 100
+    },
+    "campaignDescription": {
+      "type": "string",
+      "description": "Campaign description shown to users",
+      "example": "Rewarding early supporters and contributors to the ecosystem",
+      "maxLength": 500
+    }
+  },
+  "contracts": {
+    "description": "Smart contract addresses and configuration",
+    "airdropAddress": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$",
+      "description": "Address of the deployed airdrop contract that handles claims",
+      "example": "0x1234567890123456789012345678901234567890"
+    },
+    "merkleRoot": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{64}$",
+      "description": "Root hash of the Merkle tree containing all eligible addresses",
+      "example": "0x0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "tokenAddress": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$",
+      "description": "Address of the ERC-20 token being distributed",
+      "example": "0x0987654321098765432109876543210987654321"
+    }
+  },
+  "distribution": {
+    "description": "Token distribution details and timeline",
+    "claimEndDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End date for claim period (ISO 8601 format)",
+      "example": "2024-12-31T23:59:59Z"
+    },
+    "claimStartDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start date for claim period (ISO 8601 format)",
+      "example": "2024-01-01T00:00:00Z"
+    },
+    "totalAmount": {
+      "type": "string",
+      "description": "Total amount of tokens to distribute (in token units, not wei)",
+      "example": "10000000",
+      "pattern": "^[0-9]+$"
+    },
+    "totalRecipients": {
+      "type": "number",
+      "description": "Total number of eligible recipients",
+      "minimum": 1,
+      "example": 5000
+    }
+  },
+  "token": {
+    "description": "Token metadata and properties",
+    "decimals": {
+      "type": "number",
+      "description": "Number of decimal places for the token",
+      "minimum": 0,
+      "maximum": 18,
+      "default": 18
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Token symbol (ticker)",
+      "example": "SAPIEN",
+      "maxLength": 10,
+      "pattern": "^[A-Z0-9]+$"
+    }
+  }
+}

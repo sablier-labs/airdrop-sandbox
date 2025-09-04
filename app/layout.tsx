@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Web3Providers } from "../components/providers/web3-providers";
+import { Toaster } from "react-hot-toast";
+import { Web3Providers } from "./components/providers/web3-providers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,8 +18,7 @@ export const metadata: Metadata = {
   description:
     "Friends of Sapien Airdrop - Claim your SAPIEN tokens. Rewarding early supporters and contributors to the Sapien ecosystem.",
   icons: {
-    apple: "/favicon.svg",
-    icon: "/favicon.svg",
+    icon: "/favicon.ico",
     shortcut: "/favicon.ico",
   },
   title: "Friends of Sapien Airdrop | Sablier",
@@ -34,7 +34,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-gray-50`}
       >
-        <Web3Providers>{children}</Web3Providers>
+        <Web3Providers>
+          {children}
+          <Toaster />
+        </Web3Providers>
       </body>
     </html>
   );

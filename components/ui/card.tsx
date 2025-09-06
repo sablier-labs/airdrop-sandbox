@@ -58,11 +58,4 @@ const CardContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEleme
 );
 CardContent.displayName = "CardContent";
 
-const CardFooter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex items-center px-8 pb-8 pt-0", className)} {...props} />
-  ),
-);
-CardFooter.displayName = "CardFooter";
-
-export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle };
+export { Card, CardContent, CardDescription, CardHeader, CardTitle };

@@ -34,22 +34,3 @@ export function Loading({ className, size = "md", text }: LoadingProps) {
     </div>
   );
 }
-
-export function LoadingScreen({ text = "Loading..." }: { text?: string }) {
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <Loading size="lg" />
-        <p className="mt-4 text-lg text-muted-foreground">{text}</p>
-      </div>
-    </div>
-  );
-}
-
-type SkeletonProps = React.HTMLAttributes<HTMLDivElement>;
-
-function Skeleton({ className, ...props }: SkeletonProps) {
-  return <div className={cn("animate-pulse rounded-md bg-muted", className)} {...props} />;
-}
-
-export { Skeleton };

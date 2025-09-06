@@ -2,17 +2,17 @@ import { useCallback, useState } from "react";
 import type { Address, Hash } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import type { ClaimParams, ClaimResult, SablierContractInstance } from "../lib/contracts";
-import { SablierContractFactory } from "../lib/contracts";
+import { createContract, createContractAuto } from "../lib/contracts";
 import type { SablierContractError } from "../lib/contracts/types";
 
-interface UseSablierClaimParams {
+type UseSablierClaimParams = {
   contractAddress: Address;
   contractType?: "instant" | "lockup-linear" | "lockup-tranched";
   onSuccess?: (result: ClaimResult) => void;
   onError?: (error: SablierContractError) => void;
-}
+};
 
-interface ClaimState {
+type ClaimState = {
   isLoading: boolean;
   error: SablierContractError | null;
   txHash: Hash | null;
@@ -22,9 +22,9 @@ interface ClaimState {
     gasPrice: bigint;
     totalCost: bigint;
   } | null;
-}
+};
 
-interface UseSablierClaimReturn {
+type UseSablierClaimReturn = {
   claim: (params: {
     index: bigint;
     amount: bigint;
@@ -39,7 +39,7 @@ interface UseSablierClaimReturn {
   }) => Promise<void>;
   reset: () => void;
   state: ClaimState;
-}
+};
 
 /**
  * Hook to handle Sablier airdrop claiming
@@ -62,17 +62,15 @@ export function useSablierClaim({
     txHash: null,
   });
 
-  const createContract = useCallback(async (): Promise<SablierContractInstance> => {
+  const createContractInstance = useCallback(async (): Promise<SablierContractInstance> => {
     if (!publicClient) {
       throw new Error("Public client not available");
     }
 
-    const factory = new SablierContractFactory(publicClient, walletClient);
-
     if (contractType) {
-      return factory.createContract(contractType, contractAddress);
+      return createContract(contractType, contractAddress, publicClient, walletClient);
     } else {
-      return factory.createContractAuto(contractAddress);
+      return createContractAuto(contractAddress, publicClient, walletClient);
     }
   }, [publicClient, walletClient, contractType, contractAddress]);
 
@@ -85,7 +83,7 @@ export function useSablierClaim({
       setState((prev) => ({ ...prev, error: null, isLoading: true }));
 
       try {
-        const contract = await createContract();
+        const contract = await createContractInstance();
 
         const claimParams: ClaimParams = {
           amount: params.amount,
@@ -121,7 +119,7 @@ export function useSablierClaim({
         setState((prev) => ({ ...prev, isLoading: false }));
       }
     },
-    [address, createContract],
+    [address, createContractInstance],
   );
 
   const claim = useCallback(
@@ -144,7 +142,7 @@ export function useSablierClaim({
       }));
 
       try {
-        const contract = await createContract();
+        const contract = await createContractInstance();
 
         const claimParams: ClaimParams = {
           amount: params.amount,
@@ -186,7 +184,7 @@ export function useSablierClaim({
         setState((prev) => ({ ...prev, isLoading: false }));
       }
     },
-    [address, createContract, onSuccess, onError],
+    [address, createContractInstance, onSuccess, onError],
   );
 
   const reset = useCallback(() => {

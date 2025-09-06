@@ -6,32 +6,6 @@ import type { AirdropConfig } from "../types";
  */
 export const lockupTranchedConfig: AirdropConfig = {
   branding: {
-    colors: {
-      dark: {
-        accent: "45 93% 57%",
-        accentForeground: "271 32% 18%",
-        background: "271 32% 8%",
-        border: "271 32% 16%",
-        foreground: "0 0% 95%",
-        primary: "271 81% 66%",
-        primaryForeground: "271 32% 18%",
-        ring: "271 81% 66%",
-        secondary: "271 32% 16%",
-        secondaryForeground: "271 81% 66%",
-      },
-      light: {
-        accent: "45 93% 47%", // Gold accent
-        accentForeground: "0 0% 100%",
-        background: "0 0% 100%",
-        border: "271 32% 89%",
-        foreground: "271 32% 18%",
-        primary: "271 81% 56%", // Purple
-        primaryForeground: "0 0% 100%",
-        ring: "271 81% 56%",
-        secondary: "271 32% 96%",
-        secondaryForeground: "271 81% 56%",
-      },
-    },
     logo: {
       alt: "DeFi Protocol",
       dark: "/logos/defi-dark.svg",

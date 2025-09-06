@@ -13,7 +13,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Loading } from "./ui/loading";
 
-interface ClaimPanelProps {
+type ClaimPanelProps = {
   contractAddress: Address;
   contractType?: "instant" | "lockup-linear" | "lockup-tranched";
   merkleTreeData?: {
@@ -29,7 +29,7 @@ interface ClaimPanelProps {
   tokenDecimals?: number;
   onClaimSuccess?: (txHash: Hash, streamId?: bigint) => void;
   className?: string;
-}
+};
 
 export function ClaimPanel({
   contractAddress,

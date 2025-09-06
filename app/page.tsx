@@ -1,5 +1,6 @@
 "use client";
 
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ArrowRight, Gift, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -18,7 +19,6 @@ import {
   EligibilityChecker,
   MainLayout,
   TransactionStatus,
-  WalletConnect,
 } from "@/components";
 
 // Example configuration - in a real app, this would come from environment variables or API
@@ -58,40 +58,42 @@ export default function Home() {
 
   return (
     <MainLayout>
-      <div className="space-y-8">
+      <div className="space-y-12">
         {/* Hero Section */}
-        <div className="text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-orange-100 to-yellow-100 rounded-full border border-orange-200">
+        <div className="text-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 gradient-accent rounded-full shadow-medium animate-glow">
             <Sparkles className="h-4 w-4 text-orange-600" />
-            <span className="text-sm font-medium text-orange-700">
-              {CAMPAIGN_CONFIG.campaignName}
-            </span>
+            <span className="text-sm font-semibold text-white">{CAMPAIGN_CONFIG.campaignName}</span>
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
             Claim Your{" "}
-            <span className="bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent">
-              Sablier Tokens
-            </span>
+            <span className="gradient-primary bg-clip-text text-transparent">Sablier Tokens</span>
           </h1>
 
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Participate in the future of token streaming. Check your eligibility and claim your
             {CAMPAIGN_CONFIG.tokenSymbol} tokens with real-time vesting.
           </p>
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           {/* Left Column - Main Actions */}
           <div className="lg:col-span-2 space-y-6">
             {/* Wallet Connection */}
             {!isConnected ? (
-              <WalletConnect
-                variant="card"
-                title="Connect to Get Started"
-                description="Connect your wallet to check eligibility and claim your airdrop tokens"
-              />
+              <div className="p-8 text-center border rounded-xl bg-card shadow-medium">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold">Connect to Get Started</h3>
+                  <p className="text-muted-foreground">
+                    Connect your wallet to check eligibility and claim your airdrop tokens
+                  </p>
+                  <div className="pt-2">
+                    <ConnectButton />
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Eligibility Checker */}
@@ -127,7 +129,7 @@ export default function Home() {
           </div>
 
           {/* Right Column - Stats and Info */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Campaign Statistics */}
             <CampaignStats
               contractAddress={CAMPAIGN_CONFIG.contractAddress}
@@ -185,21 +187,21 @@ export default function Home() {
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">
+                    <div className="flex-shrink-0 w-8 h-8 gradient-primary rounded-full flex items-center justify-center text-sm font-bold text-primary-foreground shadow-medium">
                       1
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium">Connect Wallet</p>
+                      <p className="text-sm font-semibold">Connect Wallet</p>
                       <p className="text-xs text-muted-foreground">Connect your Ethereum wallet</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">
+                    <div className="flex-shrink-0 w-8 h-8 gradient-primary rounded-full flex items-center justify-center text-sm font-bold text-primary-foreground shadow-medium">
                       2
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium">Check Eligibility</p>
+                      <p className="text-sm font-semibold">Check Eligibility</p>
                       <p className="text-xs text-muted-foreground">
                         Verify your address is eligible
                       </p>
@@ -207,21 +209,21 @@ export default function Home() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">
+                    <div className="flex-shrink-0 w-8 h-8 gradient-primary rounded-full flex items-center justify-center text-sm font-bold text-primary-foreground shadow-medium">
                       3
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium">Claim Tokens</p>
+                      <p className="text-sm font-semibold">Claim Tokens</p>
                       <p className="text-xs text-muted-foreground">Submit transaction to claim</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">
+                    <div className="flex-shrink-0 w-8 h-8 gradient-primary rounded-full flex items-center justify-center text-sm font-bold text-primary-foreground shadow-medium">
                       4
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium">Enjoy Streaming</p>
+                      <p className="text-sm font-semibold">Enjoy Streaming</p>
                       <p className="text-xs text-muted-foreground">
                         Watch your tokens stream in real-time
                       </p>
@@ -234,10 +236,12 @@ export default function Home() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center pt-8 border-t">
-          <div className="space-y-4">
-            <h2 className="text-2xl font-semibold">Ready to explore Sablier?</h2>
-            <p className="text-muted-foreground">
+        <div className="text-center pt-12 border-t border-primary/10">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold gradient-primary bg-clip-text text-transparent">
+              Ready to explore Sablier?
+            </h2>
+            <p className="text-lg text-muted-foreground">
               Discover the full potential of token streaming on the Sablier platform
             </p>
             <div className="flex items-center justify-center gap-4">
@@ -245,7 +249,7 @@ export default function Home() {
                 href="https://app.sablier.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-4 gradient-primary text-primary-foreground rounded-xl font-semibold shadow-large hover:scale-105 transition-smooth hover:shadow-glow"
               >
                 Launch App
                 <ArrowRight className="h-4 w-4" />
@@ -254,7 +258,7 @@ export default function Home() {
                 href="https://docs.sablier.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-accent transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-4 border-2 border-primary/20 rounded-xl font-semibold hover:bg-primary/5 hover:border-primary/40 hover:scale-105 transition-smooth"
               >
                 Learn More
               </a>

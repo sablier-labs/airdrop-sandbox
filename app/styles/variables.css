@@ -1,0 +1,110 @@
+/**
+ * CSS Custom Properties for Airdrop Theme
+ *
+ * These variables are extracted from config/airdrop.config.ts
+ * and provide theme-aware color values for both light and dark modes.
+ */
+
+:root {
+  /* Light Theme Colors */
+  --accent: 265 85% 64%;
+  --accent-foreground: 0 0% 98%;
+  --background: 0 0% 100%;
+  --border: 265 15% 91%;
+  --card: 0 0% 100%;
+  --card-foreground: 265 15% 15%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --foreground: 265 15% 15%;
+  --input: 265 10% 96%;
+  --muted: 265 10% 97%;
+  --muted-foreground: 265 8% 46%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 265 15% 15%;
+  --primary: 265 85% 64%; /* Enhanced Sablier purple */
+  --primary-foreground: 0 0% 98%;
+  --radius: 0.75rem;
+  --ring: 265 85% 64%;
+  --secondary: 265 15% 97%;
+  --secondary-foreground: 265 85% 64%;
+
+  /* Glass morphism and gradient variables */
+  --glass-bg: 255 255 255 / 0.1;
+  --glass-border: 255 255 255 / 0.2;
+  --gradient-primary: linear-gradient(135deg, hsl(265 85% 64%) 0%, hsl(270 85% 70%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(45 100% 70%) 0%, hsl(25 95% 65%) 100%);
+  --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+  --shadow-medium: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+  --shadow-large: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+  --shadow-glow: 0 0 0 1px hsl(265 85% 64% / 0.3);
+}
+
+/* Dark theme colors using CSS media query */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: 265 85% 72%;
+    --accent-foreground: 265 20% 10%;
+    --background: 265 20% 5%;
+    --border: 265 20% 18%;
+    --card: 265 20% 7%;
+    --card-foreground: 0 0% 95%;
+    --destructive: 0 62% 52%;
+    --destructive-foreground: 0 0% 98%;
+    --foreground: 0 0% 95%;
+    --input: 265 20% 18%;
+    --muted: 265 20% 12%;
+    --muted-foreground: 265 15% 65%;
+    --popover: 265 20% 7%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 265 85% 72%;
+    --primary-foreground: 265 20% 10%;
+    --radius: 0.75rem;
+    --ring: 265 85% 72%;
+    --secondary: 265 20% 18%;
+    --secondary-foreground: 265 85% 72%;
+
+    /* Glass morphism and gradient variables for dark mode */
+    --glass-bg: 0 0 0 / 0.2;
+    --glass-border: 255 255 255 / 0.1;
+    --gradient-primary: linear-gradient(135deg, hsl(265 85% 72%) 0%, hsl(270 85% 78%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(45 90% 65%) 0%, hsl(25 85% 60%) 100%);
+    --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -1px rgb(0 0 0 / 0.15);
+    --shadow-medium: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -2px rgb(0 0 0 / 0.15);
+    --shadow-large: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 10px 10px -5px rgb(0 0 0 / 0.2);
+    --shadow-glow: 0 0 0 1px hsl(265 85% 72% / 0.4);
+  }
+}
+
+/* Dark theme colors using class-based approach */
+.dark {
+  --accent: 265 85% 72%;
+  --accent-foreground: 265 20% 10%;
+  --background: 265 20% 5%;
+  --border: 265 20% 18%;
+  --card: 265 20% 7%;
+  --card-foreground: 0 0% 95%;
+  --destructive: 0 62% 52%;
+  --destructive-foreground: 0 0% 98%;
+  --foreground: 0 0% 95%;
+  --input: 265 20% 18%;
+  --muted: 265 20% 12%;
+  --muted-foreground: 265 15% 65%;
+  --popover: 265 20% 7%;
+  --popover-foreground: 0 0% 95%;
+  --primary: 265 85% 72%;
+  --primary-foreground: 265 20% 10%;
+  --radius: 0.75rem;
+  --ring: 265 85% 72%;
+  --secondary: 265 20% 18%;
+  --secondary-foreground: 265 85% 72%;
+
+  /* Glass morphism and gradient variables for dark mode */
+  --glass-bg: 0 0 0 / 0.2;
+  --glass-border: 255 255 255 / 0.1;
+  --gradient-primary: linear-gradient(135deg, hsl(265 85% 72%) 0%, hsl(270 85% 78%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(45 90% 65%) 0%, hsl(25 85% 60%) 100%);
+  --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -1px rgb(0 0 0 / 0.15);
+  --shadow-medium: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -2px rgb(0 0 0 / 0.15);
+  --shadow-large: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 10px 10px -5px rgb(0 0 0 / 0.2);
+  --shadow-glow: 0 0 0 1px hsl(265 85% 72% / 0.4);
+}

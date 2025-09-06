@@ -167,3 +167,11 @@ export interface UseContractInfoReturn<T extends SablierMerkleContractInfo> {
   isLoading: boolean;
   refetch: () => Promise<void>;
 }
+
+// Contract type definitions
+export type ContractType = "instant" | "lockup-linear" | "lockup-tranched";
+
+export type SablierContractInstance =
+  | import("./instant").SablierMerkleInstantContract
+  | import("./lockup-linear").SablierMerkleLLContract
+  | import("./lockup-tranched").SablierMerkleLTContract;

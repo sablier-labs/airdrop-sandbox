@@ -6,32 +6,6 @@ import type { AirdropConfig } from "../types";
  */
 export const instantAirdropConfig: AirdropConfig = {
   branding: {
-    colors: {
-      dark: {
-        accent: "217 91% 70%",
-        accentForeground: "217 32% 17%",
-        background: "217 32% 9%",
-        border: "217 32% 15%",
-        foreground: "0 0% 95%",
-        primary: "217 91% 70%",
-        primaryForeground: "217 32% 17%",
-        ring: "217 91% 70%",
-        secondary: "217 32% 15%",
-        secondaryForeground: "217 91% 70%",
-      },
-      light: {
-        accent: "217 91% 60%",
-        accentForeground: "0 0% 100%",
-        background: "0 0% 100%",
-        border: "217 32% 89%",
-        foreground: "217 32% 17%",
-        primary: "217 91% 60%", // Bright blue
-        primaryForeground: "0 0% 100%",
-        ring: "217 91% 60%",
-        secondary: "217 32% 96%",
-        secondaryForeground: "217 91% 60%",
-      },
-    },
     logo: {
       alt: "Example Project",
       dark: "/logos/instant-dark.svg",

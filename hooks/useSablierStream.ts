@@ -4,22 +4,22 @@ import { usePublicClient } from "wagmi";
 import type { LockupLinearSchedule, TrancheWithPercentage } from "../lib/contracts";
 import { SablierMerkleLLContract, SablierMerkleLTContract } from "../lib/contracts";
 
-interface StreamStatus {
+type StreamStatus = {
   status: "pending" | "streaming" | "settled" | "canceled" | "depleted";
   streamedAmount: bigint;
   refundedAmount: bigint;
   withdrawableAmount: bigint;
   remainingAmount: bigint;
-}
+};
 
-interface LinearStreamData extends StreamStatus {
+type LinearStreamData = StreamStatus & {
   schedule: LockupLinearSchedule;
   cliffReached: boolean;
   vestingEndTime: number;
   currentVestingPercentage: number;
-}
+};
 
-interface TranchedStreamData extends StreamStatus {
+type TranchedStreamData = StreamStatus & {
   tranches: TrancheWithPercentage[];
   currentTranche: number;
   nextUnlockTime: number | null;
@@ -30,18 +30,18 @@ interface TranchedStreamData extends StreamStatus {
     unlockPercentage: bigint;
     isUnlocked: boolean;
   }>;
-}
+};
 
-interface UseSablierStreamParams {
+type UseSablierStreamParams = {
   contractAddress: Address;
   streamId: bigint;
   contractType: "lockup-linear" | "lockup-tranched";
   autoRefresh?: boolean;
   refreshInterval?: number; // seconds
   enabled?: boolean;
-}
+};
 
-interface UseSablierStreamReturn {
+type UseSablierStreamReturn = {
   streamData: LinearStreamData | TranchedStreamData | null;
   isLoading: boolean;
   error: Error | null;
@@ -49,7 +49,7 @@ interface UseSablierStreamReturn {
   refresh: () => Promise<void>;
   isLinear: boolean;
   isTranched: boolean;
-}
+};
 
 /**
  * Hook to monitor Sablier stream status and data

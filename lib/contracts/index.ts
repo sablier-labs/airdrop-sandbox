@@ -1,8 +1,5 @@
 // Contract wrappers
 export { SablierMerkleBaseContract } from "./base";
-export type { ContractType, SablierContractInstance } from "./factory";
-// Factory
-export { SablierContractFactory } from "./factory";
 export { SablierMerkleInstantContract } from "./instant";
 export { SablierMerkleLLContract } from "./lockup-linear";
 export { SablierMerkleLTContract } from "./lockup-tranched";
@@ -17,10 +14,12 @@ export type {
   ClawbackParams,
   ClawbackResult,
   CollectFeesParams,
+  ContractType,
   FeeCollectionResult,
   GasEstimate,
   LockupLinearSchedule,
   SablierContractError,
+  SablierContractInstance,
   SablierMerkleContractInfo,
   SablierMerkleInstantInfo,
   SablierMerkleLLInfo,
@@ -32,3 +31,5 @@ export type {
   UseContractInfoReturn,
   UseEligibilityReturn,
 } from "./types";
+// Utilities
+export { createContract, createContractAuto, detectContractType } from "./utils";

@@ -1,3 +1,101 @@
 /** biome-ignore-all lint/suspicious/noUnknownAtRules: remove when this is fixed https://github.com/biomejs/biome/issues/7223 */
+@import "./styles/variables.css";
 @import "tailwindcss";
 @import "@rainbow-me/rainbowkit/styles.css";
+
+/* Global enhancements and utilities */
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  /* Glass morphism utilities */
+  .glass {
+    backdrop-filter: blur(12px);
+    background: rgba(var(--glass-bg));
+    border: 1px solid rgba(var(--glass-border));
+  }
+
+  .glass-heavy {
+    backdrop-filter: blur(24px);
+    background: rgba(var(--glass-bg));
+    border: 1px solid rgba(var(--glass-border));
+  }
+
+  /* Enhanced shadow utilities */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+
+  .shadow-large {
+    box-shadow: var(--shadow-large);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Gradient utilities */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  /* Animation utilities */
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .animate-glow {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.3));
+  }
+
+  /* Enhanced focus states */
+  .focus-glow:focus {
+    outline: none;
+    box-shadow:
+      var(--shadow-glow),
+      0 0 0 2px hsl(var(--primary) / 0.2);
+    transition: all 0.2s ease;
+  }
+
+  /* Improved transitions */
+  .transition-smooth {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-bounce {
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}

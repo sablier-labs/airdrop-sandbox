@@ -7,5 +7,3 @@ export * from "./layout";
 export * from "./transaction-status";
 // UI components
 export * from "./ui";
-// Core functionality components
-export * from "./wallet-connect";

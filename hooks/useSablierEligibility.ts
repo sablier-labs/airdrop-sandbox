@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import type { Address } from "viem";
 import { useAccount, usePublicClient } from "wagmi";
 import type { SablierContractInstance } from "../lib/contracts";
-import { SablierContractFactory } from "../lib/contracts";
+import { createContract, createContractAuto } from "../lib/contracts";
 import type { EligibilityResult } from "../lib/merkle";
 import { MerkleVerification } from "../lib/merkle";
 
-interface UseSablierEligibilityParams {
+type UseSablierEligibilityParams = {
   contractAddress: Address;
   contractType?: "instant" | "lockup-linear" | "lockup-tranched";
   merkleTreeData?: {
@@ -19,9 +19,9 @@ interface UseSablierEligibilityParams {
   };
   ipfsHash?: string;
   enabled?: boolean;
-}
+};
 
-interface UseSablierEligibilityReturn {
+type UseSablierEligibilityReturn = {
   amount: bigint | null;
   error: Error | null;
   hasClaimed: boolean | null;
@@ -31,7 +31,7 @@ interface UseSablierEligibilityReturn {
   proof: string[] | null;
   refetch: () => Promise<void>;
   contract: SablierContractInstance | null;
-}
+};
 
 /**
  * Hook to check user eligibility for Sablier airdrop claim
@@ -72,16 +72,14 @@ export function useSablierEligibility({
     return null;
   }, [merkleTreeData, ipfsHash]);
 
-  const createContract = useCallback(async (): Promise<SablierContractInstance | null> => {
+  const createContractInstance = useCallback(async (): Promise<SablierContractInstance | null> => {
     if (!publicClient) return null;
 
-    const factory = new SablierContractFactory(publicClient);
-
     if (contractType) {
-      return factory.createContract(contractType, contractAddress);
+      return createContract(contractType, contractAddress, publicClient);
     } else {
       // Auto-detect contract type
-      return factory.createContractAuto(contractAddress);
+      return createContractAuto(contractAddress, publicClient);
     }
   }, [publicClient, contractType, contractAddress]);
 
@@ -97,7 +95,7 @@ export function useSablierEligibility({
       // Load merkle data and create contract in parallel
       const [merkleVerification, contractInstance] = await Promise.all([
         loadMerkleData(),
-        createContract(),
+        createContractInstance(),
       ]);
 
       setContract(contractInstance);
@@ -134,7 +132,7 @@ export function useSablierEligibility({
     } finally {
       setIsLoading(false);
     }
-  }, [enabled, address, publicClient, loadMerkleData, createContract]);
+  }, [enabled, address, publicClient, loadMerkleData, createContractInstance]);
 
   // Auto-fetch on mount and when dependencies change
   useEffect(() => {

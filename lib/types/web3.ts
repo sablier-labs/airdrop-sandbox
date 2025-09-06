@@ -1,9 +1,9 @@
 import type { Address, Hash } from "viem";
-import type { CHAIN_IDS, CHAIN_NAMES, chains } from "../web3/config";
+import type { chains } from "../web3/config";
 
 // Chain types
 export type SupportedChainId = (typeof chains)[number]["id"];
-export type ChainName = (typeof CHAIN_NAMES)[SupportedChainId];
+export type ChainName = (typeof chains)[number]["name"];
 
 // Contract addresses by chain
 export type ContractAddresses = {
@@ -38,19 +38,6 @@ export type ClaimTransaction = {
   status: TransactionStatus;
   error?: string;
 };
-
-// Environment variables
-export interface Web3Environment {
-  walletConnectProjectId: string;
-  rpcUrls: {
-    [K in keyof typeof CHAIN_IDS]?: string;
-  };
-  contractAddresses: {
-    merkleInstant: Address;
-    merkleLL: Address;
-    merkleLT: Address;
-  };
-}
 
 // Utility types
 export type OptionalAddress = Address | undefined;

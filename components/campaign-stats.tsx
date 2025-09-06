@@ -20,7 +20,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Loading } from "./ui/loading";
 import { Progress } from "./ui/progress";
 
-interface CampaignStatsProps {
+type CampaignStatsProps = {
   contractAddress: Address;
   contractType?: "instant" | "lockup-linear" | "lockup-tranched";
   merkleTreeData?: {
@@ -35,9 +35,9 @@ interface CampaignStatsProps {
   tokenDecimals?: number;
   campaignName?: string;
   className?: string;
-}
+};
 
-interface StatsData {
+type StatsData = {
   totalRecipients: number;
   totalTokens: bigint;
   claimedCount: number;
@@ -46,7 +46,7 @@ interface StatsData {
   avgClaimAmount: bigint;
   timeRemaining?: number;
   isActive: boolean;
-}
+};
 
 export function CampaignStats({
   contractAddress: _contractAddress,

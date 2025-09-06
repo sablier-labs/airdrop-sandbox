@@ -13,7 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Input } from "./ui/input";
 import { Loading } from "./ui/loading";
 
-interface EligibilityCheckerProps {
+type EligibilityCheckerProps = {
   contractAddress: Address;
   contractType?: "instant" | "lockup-linear" | "lockup-tranched";
   merkleTreeData?: {
@@ -28,7 +28,7 @@ interface EligibilityCheckerProps {
   tokenSymbol?: string;
   tokenDecimals?: number;
   className?: string;
-}
+};
 
 export function EligibilityChecker({
   contractAddress,

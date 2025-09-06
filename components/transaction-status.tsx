@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Hash, TransactionReceipt } from "viem";
-import { useWaitForTransactionReceipt } from "wagmi";
+import { base } from "viem/chains";
+import { useChainId, useWaitForTransactionReceipt } from "wagmi";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
@@ -20,14 +21,14 @@ import { Progress } from "./ui/progress";
 
 type TransactionStatus = "pending" | "confirmed" | "failed" | "replaced";
 
-interface TransactionStatusProps {
+type TransactionStatusProps = {
   txHash?: Hash;
   streamId?: bigint;
   onStatusChange?: (status: TransactionStatus, receipt?: TransactionReceipt) => void;
   showStreamLink?: boolean;
   title?: string;
   className?: string;
-}
+};
 
 export function TransactionStatus({
   txHash,
@@ -40,6 +41,8 @@ export function TransactionStatus({
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
+
+  const chainId = useChainId();
 
   const {
     data: receipt,
@@ -140,9 +143,13 @@ export function TransactionStatus({
   };
 
   const getExplorerUrl = (hash: Hash, chainId?: number) => {
-    // Default to Ethereum mainnet, but could be made configurable
-    const baseUrl = chainId === 1 ? "https://etherscan.io" : "https://etherscan.io"; // Fallback to mainnet
-    return `${baseUrl}/tx/${hash}`;
+    // Use viem chain data for Base chain, fallback to Etherscan for others
+    if (chainId === base.id) {
+      return `${base.blockExplorers.default.url}/tx/${hash}`;
+    }
+
+    // Default fallback to Ethereum mainnet
+    return `https://etherscan.io/tx/${hash}`;
   };
 
   if (!txHash) {
@@ -224,7 +231,7 @@ export function TransactionStatus({
             <code className="flex-1 text-xs font-mono truncate">{txHash}</code>
             <Button asChild variant="ghost" size="sm">
               <a
-                href={getExplorerUrl(txHash)}
+                href={getExplorerUrl(txHash, chainId)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1"

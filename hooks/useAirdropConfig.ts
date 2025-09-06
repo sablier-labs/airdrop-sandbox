@@ -143,6 +143,7 @@ export function useContractConfig(customConfig?: Partial<AirdropConfig>) {
 
 /**
  * Hook for branding configuration with theme support
+ * Colors are now handled by CSS variables in app/styles/variables.css
  */
 export function useBrandingConfig(customConfig?: Partial<AirdropConfig>) {
   const { config, currentTheme } = useAirdropConfig(customConfig);
@@ -150,10 +151,6 @@ export function useBrandingConfig(customConfig?: Partial<AirdropConfig>) {
 
   return {
     ...branding,
-    currentColors:
-      currentTheme === "dark" && branding.colors.dark
-        ? branding.colors.dark
-        : branding.colors.light,
     currentTheme,
     logo: branding.logo,
     typography: branding.typography,

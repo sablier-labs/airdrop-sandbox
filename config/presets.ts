@@ -31,20 +31,6 @@ export const configPresets: ConfigPreset[] = [
       ...instantAirdropConfig,
       branding: {
         ...instantAirdropConfig.branding,
-        colors: {
-          light: {
-            accent: "0 0% 20%",
-            accentForeground: "0 0% 100%",
-            background: "0 0% 100%",
-            border: "0 0% 89%",
-            foreground: "0 0% 20%",
-            primary: "0 0% 20%",
-            primaryForeground: "0 0% 100%",
-            ring: "0 0% 20%",
-            secondary: "0 0% 96%",
-            secondaryForeground: "0 0% 20%",
-          },
-        },
         typography: {
           fontFamily: "system-ui, sans-serif",
         },
@@ -73,20 +59,6 @@ export const configPresets: ConfigPreset[] = [
       ...instantAirdropConfig,
       branding: {
         ...instantAirdropConfig.branding,
-        colors: {
-          light: {
-            accent: "0 0% 80%",
-            accentForeground: "0 0% 10%",
-            background: "0 0% 10%",
-            border: "0 0% 20%",
-            foreground: "0 0% 90%",
-            primary: "0 0% 80%",
-            primaryForeground: "0 0% 10%",
-            ring: "0 0% 80%",
-            secondary: "0 0% 20%",
-            secondaryForeground: "0 0% 80%",
-          },
-        },
         typography: {
           fontFamily: "system-ui, sans-serif",
         },

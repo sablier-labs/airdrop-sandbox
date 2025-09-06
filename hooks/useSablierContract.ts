@@ -6,21 +6,21 @@ import type {
   SablierContractInstance,
   SablierMerkleContractInfo,
 } from "../lib/contracts";
-import { SablierContractFactory } from "../lib/contracts";
+import { createContract, createContractAuto } from "../lib/contracts";
 
-interface UseSablierContractParams {
+type UseSablierContractParams = {
   contractAddress: Address;
   contractType?: ContractType;
   enabled?: boolean;
-}
+};
 
-interface UseSablierContractReturn {
+type UseSablierContractReturn = {
   contract: SablierContractInstance | null;
   contractInfo: SablierMerkleContractInfo | null;
   error: Error | null;
   isLoading: boolean;
   refetch: () => Promise<void>;
-}
+};
 
 /**
  * Hook to manage Sablier contract instances and information
@@ -47,11 +47,9 @@ export function useSablierContract({
     setError(null);
 
     try {
-      const factory = new SablierContractFactory(publicClient, walletClient);
-
       const contractInstance = contractType
-        ? factory.createContract(contractType, contractAddress)
-        : await factory.createContractAuto(contractAddress);
+        ? createContract(contractType, contractAddress, publicClient, walletClient)
+        : await createContractAuto(contractAddress, publicClient, walletClient);
 
       setContract(contractInstance);
 
@@ -115,7 +113,6 @@ export function useMultipleSablierContracts(
     setIsLoading(true);
     setErrors({});
 
-    const factory = new SablierContractFactory(publicClient, walletClient);
     const newContractsData: typeof contractsData = {};
     const newErrors: typeof errors = {};
 
@@ -123,8 +120,8 @@ export function useMultipleSablierContracts(
       contracts.map(async ({ address, type }) => {
         try {
           const contractInstance = type
-            ? factory.createContract(type, address)
-            : await factory.createContractAuto(address);
+            ? createContract(type, address, publicClient, walletClient)
+            : await createContractAuto(address, publicClient, walletClient);
 
           // Get contract info - all contract instances have getContractInfo
           const info = await contractInstance.getContractInfo();

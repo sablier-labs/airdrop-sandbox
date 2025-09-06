@@ -4,28 +4,28 @@ import { encodePacked, keccak256 } from "viem";
 /**
  * Represents a leaf in the merkle tree
  */
-export interface MerkleLeaf {
+export type MerkleLeaf = {
   index: bigint;
   recipient: Address;
   amount: bigint;
-}
+};
 
 /**
  * Represents a merkle proof for claiming
  */
-export interface MerkleProof {
+export type MerkleProof = {
   leaf: MerkleLeaf;
   proof: Hash[];
-}
+};
 
 /**
  * Tree node used internally for construction
  */
-interface TreeNode {
+type TreeNode = {
   hash: Hash;
   left?: TreeNode;
   right?: TreeNode;
-}
+};
 
 /**
  * Merkle tree implementation for Sablier airdrops

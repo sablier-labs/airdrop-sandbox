@@ -6,32 +6,6 @@ import type { AirdropConfig } from "../types";
  */
 export const lockupLinearConfig: AirdropConfig = {
   branding: {
-    colors: {
-      dark: {
-        accent: "142 76% 46%",
-        accentForeground: "142 33% 20%",
-        background: "142 33% 10%",
-        border: "142 33% 18%",
-        foreground: "0 0% 95%",
-        primary: "142 76% 46%",
-        primaryForeground: "142 33% 20%",
-        ring: "142 76% 46%",
-        secondary: "142 33% 18%",
-        secondaryForeground: "142 76% 46%",
-      },
-      light: {
-        accent: "142 76% 36%",
-        accentForeground: "0 0% 100%",
-        background: "0 0% 100%",
-        border: "142 33% 89%",
-        foreground: "142 33% 20%",
-        primary: "142 76% 36%", // Forest green
-        primaryForeground: "0 0% 100%",
-        ring: "142 76% 36%",
-        secondary: "142 33% 96%",
-        secondaryForeground: "142 76% 36%",
-      },
-    },
     logo: {
       alt: "Builder DAO",
       dark: "/logos/builder-dark.svg",

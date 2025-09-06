@@ -9,34 +9,6 @@ import type { AirdropConfig } from "./types";
 export const airdropConfig: AirdropConfig = {
   // Branding configuration
   branding: {
-    colors: {
-      // Dark theme colors (optional)
-      dark: {
-        accent: "265 72% 61%",
-        accentForeground: "265 15% 15%",
-        background: "265 15% 6%",
-        border: "265 15% 20%",
-        foreground: "0 0% 95%",
-        primary: "265 72% 61%",
-        primaryForeground: "265 15% 15%",
-        ring: "265 72% 61%",
-        secondary: "265 15% 20%",
-        secondaryForeground: "265 72% 61%",
-      },
-      // Light theme colors
-      light: {
-        accent: "265 72% 51%",
-        accentForeground: "0 0% 98%",
-        background: "0 0% 100%",
-        border: "265 10% 89%",
-        foreground: "265 15% 15%",
-        primary: "265 72% 51%", // Sablier purple
-        primaryForeground: "0 0% 98%",
-        ring: "265 72% 51%",
-        secondary: "265 10% 96%",
-        secondaryForeground: "265 72% 51%",
-      },
-    },
     logo: {
       alt: "Sablier Protocol",
       dark: "/logo-dark.svg",
@@ -72,7 +44,7 @@ export const airdropConfig: AirdropConfig = {
   // Content and messaging
   content: {
     aboutProject:
-      "Sablier is a protocol for real-time finance on Ethereum. Stream tokens continuously, vest them linearly, or set up any custom streaming schedule.",
+      "Sablier is a protocol for real-time finance on Base. Stream tokens continuously, vest them linearly, or set up any custom streaming schedule.",
     description:
       "Welcome to the Sablier Protocol airdrop! Connect your wallet to check your eligibility and claim your tokens.",
     privacyPolicy: "https://sablier.com/privacy",
@@ -89,8 +61,10 @@ export const airdropConfig: AirdropConfig = {
   },
   // Contract configuration
   contract: {
-    address: "0x1234567890123456789012345678901234567890", // Replace with your contract address
-    chainId: 1, // Ethereum Mainnet
+    address:
+      (process.env.NEXT_PUBLIC_AIRDROP_CONTRACT_ADDRESS as `0x${string}`) ||
+      "0x1234567890123456789012345678901234567890", // Airdrop contract address
+    chainId: 8453, // Base
     type: "instant", // instant | lockup-linear | lockup-tranched
   },
 
@@ -123,5 +97,3 @@ export const airdropConfig: AirdropConfig = {
 
   version: "1.0.0",
 };
-
-export default airdropConfig;

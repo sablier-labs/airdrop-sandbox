@@ -5,11 +5,11 @@ import { Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-interface LoadingProps {
+type LoadingProps = {
   className?: string;
   size?: "sm" | "md" | "lg";
   text?: string;
-}
+};
 
 const sizeClasses = {
   lg: "h-8 w-8",
@@ -46,7 +46,7 @@ export function LoadingScreen({ text = "Loading..." }: { text?: string }) {
   );
 }
 
-interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SkeletonProps = React.HTMLAttributes<HTMLDivElement>;
 
 function Skeleton({ className, ...props }: SkeletonProps) {
   return <div className={cn("animate-pulse rounded-md bg-muted", className)} {...props} />;

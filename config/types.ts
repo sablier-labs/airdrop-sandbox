@@ -60,10 +60,6 @@ export interface TypographyConfig {
 }
 
 export interface BrandingConfig {
-  colors: {
-    light: ColorScheme;
-    dark?: ColorScheme;
-  };
   logo: LogoConfig;
   typography?: TypographyConfig;
 }

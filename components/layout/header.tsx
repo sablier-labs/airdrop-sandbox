@@ -5,13 +5,14 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-primary/10 glass-heavy shadow-soft">
+      <div className="container flex h-18 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500" />
-            <span className="text-xl font-bold">
-              Sablier <span className="text-primary">Airdrop</span>
+            <div className="h-9 w-9 rounded-full gradient-accent shadow-medium animate-glow" />
+            <span className="text-xl font-bold tracking-tight">
+              Sablier{" "}
+              <span className="gradient-primary bg-clip-text text-transparent">Airdrop</span>
             </span>
           </Link>
         </div>
@@ -21,7 +22,7 @@ export function Header() {
             href="https://docs.sablier.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-smooth hover:scale-105"
           >
             Documentation
           </Link>
@@ -29,7 +30,7 @@ export function Header() {
             href="https://app.sablier.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-smooth hover:scale-105"
           >
             Sablier App
           </Link>
@@ -37,14 +38,14 @@ export function Header() {
             href="https://github.com/sablier-labs"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-smooth hover:scale-105"
           >
             GitHub
           </Link>
         </nav>
 
         <div className="flex items-center space-x-4">
-          <ConnectButton chainStatus="icon" showBalance={false} />
+          <ConnectButton />
         </div>
       </div>
     </header>

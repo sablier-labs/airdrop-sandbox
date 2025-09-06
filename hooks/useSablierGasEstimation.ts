@@ -3,9 +3,9 @@ import type { Address, Hash } from "viem";
 import { formatUnits, parseGwei } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import type { ClaimParams, SablierContractInstance } from "../lib/contracts";
-import { SablierContractFactory } from "../lib/contracts";
+import { createContract, createContractAuto } from "../lib/contracts";
 
-interface GasEstimationData {
+type GasEstimationData = {
   gasLimit: bigint;
   gasPrice: bigint;
   maxFeePerGas?: bigint;
@@ -14,16 +14,16 @@ interface GasEstimationData {
   totalGasCost: bigint;
   totalCost: bigint; // Gas + contract fee
   totalCostFormatted: string; // In ETH
-}
+};
 
-interface UseSablierGasEstimationParams {
+type UseSablierGasEstimationParams = {
   contractAddress: Address;
   contractType?: "instant" | "lockup-linear" | "lockup-tranched";
   autoUpdate?: boolean;
   updateInterval?: number; // seconds
-}
+};
 
-interface UseSablierGasEstimationReturn {
+type UseSablierGasEstimationReturn = {
   estimate: (params: {
     index: bigint;
     amount: bigint;
@@ -35,7 +35,7 @@ interface UseSablierGasEstimationReturn {
   error: Error | null;
   lastUpdated: Date | null;
   refresh: () => Promise<void>;
-}
+};
 
 /**
  * Hook for comprehensive gas estimation for Sablier claims
@@ -56,16 +56,14 @@ export function useSablierGasEstimation({
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [lastParams, setLastParams] = useState<ClaimParams | null>(null);
 
-  const createContract = useCallback(async (): Promise<SablierContractInstance> => {
+  const createContractInstance = useCallback(async (): Promise<SablierContractInstance> => {
     if (!publicClient) {
       throw new Error("Public client not available");
     }
 
-    const factory = new SablierContractFactory(publicClient, walletClient);
-
     return contractType
-      ? factory.createContract(contractType, contractAddress)
-      : factory.createContractAuto(contractAddress);
+      ? createContract(contractType, contractAddress, publicClient, walletClient)
+      : createContractAuto(contractAddress, publicClient, walletClient);
   }, [publicClient, walletClient, contractType, contractAddress]);
 
   const estimate = useCallback(
@@ -83,7 +81,7 @@ export function useSablierGasEstimation({
       setError(null);
 
       try {
-        const contract = await createContract();
+        const contract = await createContractInstance();
 
         const claimParams: ClaimParams = {
           amount: params.amount,
@@ -133,7 +131,7 @@ export function useSablierGasEstimation({
         setIsLoading(false);
       }
     },
-    [address, createContract, publicClient],
+    [address, createContractInstance, publicClient],
   );
 
   const refresh = useCallback(async () => {

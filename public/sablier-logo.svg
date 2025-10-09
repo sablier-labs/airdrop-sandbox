@@ -1,0 +1,15 @@
+<!--
+  CUSTOMIZATION POINT: Replace with actual Sablier logo
+
+  Download from: https://github.com/sablier-labs/branding
+
+  Recommended files:
+  - logo.svg (full logo with text)
+  - logo-icon.svg (icon only)
+
+  For now, using a placeholder "S" logo.
+-->
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="40" height="40" rx="8" fill="#f77423"/>
+  <text x="20" y="28" font-family="system-ui, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">S</text>
+</svg>

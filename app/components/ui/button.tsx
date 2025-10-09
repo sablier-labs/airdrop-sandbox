@@ -4,8 +4,9 @@ import { cloneElement } from "react";
 import type { VariantProps } from "tailwind-variants";
 import { tv } from "tailwind-variants";
 
+// CUSTOMIZE: Sablier button variants with brand gradients
 const buttonVariants = tv({
-  base: "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  base: "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sablier-orange-start focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   defaultVariants: {
     size: "md",
     variant: "primary",
@@ -17,10 +18,11 @@ const buttonVariants = tv({
       sm: "h-9 px-3 text-sm",
     },
     variant: {
-      ghost: "hover:bg-gray-100 dark:hover:bg-gray-800",
-      primary: "bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc]",
+      ghost: "hover:bg-sablier-bg-medium text-sablier-text-primary",
+      primary:
+        "sablier-gradient-orange text-white hover:opacity-90 hover:shadow-lg hover:shadow-sablier-orange-start/25",
       secondary:
-        "border border-solid border-black/[.08] dark:border-white/[.145] hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent",
+        "border border-solid border-sablier-bg-light bg-sablier-bg-dark text-sablier-text-primary hover:bg-sablier-bg-medium hover:border-sablier-bg-light",
     },
   },
 });

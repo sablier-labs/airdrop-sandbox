@@ -1,0 +1,18 @@
+<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo icon with gradient -->
+  <defs>
+    <linearGradient id="sablierOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff7300;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffb800;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Hourglass icon -->
+  <path d="M20 8C20 5.79086 18.2091 4 16 4C13.7909 4 12 5.79086 12 8V12C12 14.2091 13.7909 16 16 16C18.2091 16 20 14.2091 20 12V8Z" fill="url(#sablierOrange)"/>
+  <path d="M20 28C20 25.7909 18.2091 24 16 24C13.7909 24 12 25.7909 12 28V32C12 34.2091 13.7909 36 16 36C18.2091 36 20 34.2091 20 32V28Z" fill="url(#sablierOrange)"/>
+  <path d="M12 16L20 24M20 16L12 24" stroke="url(#sablierOrange)" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="16" cy="20" r="2" fill="url(#sablierOrange)"/>
+
+  <!-- Text: SABLIER -->
+  <text x="44" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#e1e4ea">SABLIER</text>
+</svg>

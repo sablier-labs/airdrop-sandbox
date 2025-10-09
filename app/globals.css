@@ -1,9 +1,30 @@
 /** biome-ignore-all lint/suspicious/noUnknownAtRules: remove when this is fixed https://github.com/biomejs/biome/issues/7223 */
 @import "tailwindcss";
 
+/* CUSTOMIZE: Sablier Brand Colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Orange gradient: primary brand color */
+  --sablier-orange-start: #ff7300;
+  --sablier-orange-end: #ffb800;
+
+  /* Blue gradient: accent color */
+  --sablier-blue-start: #003dff;
+  --sablier-blue-end: #00b7ff;
+
+  /* Dark theme backgrounds */
+  --sablier-bg-darkest: #14161f;
+  --sablier-bg-dark: #1a1d2e;
+  --sablier-bg-medium: #2d3142;
+  --sablier-bg-light: #545c82;
+
+  /* Text colors */
+  --sablier-text-primary: #e1e4ea;
+  --sablier-text-secondary: #9ca3af;
+  --sablier-text-muted: #6a7795;
+
+  /* Default to dark theme (Sablier brand) */
+  --background: var(--sablier-bg-darkest);
+  --foreground: var(--sablier-text-primary);
 }
 
 @theme inline {
@@ -11,12 +32,28 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* CUSTOMIZE: Sablier color palette */
+  --color-sablier-orange-start: var(--sablier-orange-start);
+  --color-sablier-orange-end: var(--sablier-orange-end);
+  --color-sablier-blue-start: var(--sablier-blue-start);
+  --color-sablier-blue-end: var(--sablier-blue-end);
+
+  --color-sablier-bg-darkest: var(--sablier-bg-darkest);
+  --color-sablier-bg-dark: var(--sablier-bg-dark);
+  --color-sablier-bg-medium: var(--sablier-bg-medium);
+  --color-sablier-bg-light: var(--sablier-bg-light);
+
+  --color-sablier-text-primary: var(--sablier-text-primary);
+  --color-sablier-text-secondary: var(--sablier-text-secondary);
+  --color-sablier-text-muted: var(--sablier-text-muted);
 }
 
-@media (prefers-color-scheme: dark) {
+/* Light theme override (if user explicitly prefers light) */
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #14161f;
   }
 }
 
@@ -24,4 +61,24 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CUSTOMIZE: Sablier gradient utilities */
+.sablier-gradient-orange {
+  background: linear-gradient(135deg, var(--sablier-orange-start) 0%, var(--sablier-orange-end) 100%);
+}
+
+.sablier-gradient-blue {
+  background: linear-gradient(135deg, var(--sablier-blue-start) 0%, var(--sablier-blue-end) 100%);
+}
+
+.sablier-gradient-orange-hover:hover {
+  background: linear-gradient(135deg, #e66900 0%, #e6a800 100%);
+}
+
+.sablier-text-gradient-orange {
+  background: linear-gradient(135deg, var(--sablier-orange-start) 0%, var(--sablier-orange-end) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

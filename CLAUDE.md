@@ -17,6 +17,7 @@ identify and resolve the root cause.
 - **Linter and Formatter for TypeScript and JSON**: Biome (not Prettier)
 - **Formatter for Markdown and YAML**: Prettier
 - **Date Handling**: dayjs (not native Date)
+- **Web3**: wagmi, viem, RainbowKit, @sablier/airdrops
 
 ## Commands
 
@@ -90,6 +91,124 @@ just tsc-check  # TypeScript validation only
 - Optimize images (WebP, proper sizes)
 - Code split at route boundaries
 - Minimize client-side JavaScript
+
+## Web3 Integration
+
+### Core Principles
+
+- **Always use checksummed addresses** via `getAddress()` from viem
+- **Simulate transactions before execution** using `simulateContract`
+- **Handle wallet connection states** properly (disconnected, connecting, connected)
+- **Look for `// CUSTOMIZE:` comments** in the codebase for customization points
+
+### Contract Reads with viem
+
+```typescript
+import { createPublicClient, http, getAddress } from "viem";
+import { mainnet } from "viem/chains";
+
+const publicClient = createPublicClient({
+  chain: mainnet,
+  transport: http(),
+});
+
+// Read contract data
+const data = await publicClient.readContract({
+  address: getAddress("0x..."), // Always checksum
+  abi: airdropAbi,
+  functionName: "hasClaimed",
+  args: [getAddress(recipient)],
+});
+```
+
+### Contract Writes with wagmi
+
+```typescript
+"use client";
+
+import { useWriteContract, useSimulateContract } from "wagmi";
+import { getAddress } from "viem";
+
+function ClaimButton() {
+  // Simulate first
+  const { data: simulateData } = useSimulateContract({
+    address: getAddress(airdropAddress),
+    abi: airdropAbi,
+    functionName: "claim",
+    args: [index, recipient, amount, merkleProof],
+  });
+
+  // Execute write
+  const { writeContract, isPending } = useWriteContract();
+
+  const handleClaim = () => {
+    if (!simulateData?.request) return;
+    writeContract(simulateData.request);
+  };
+
+  return (
+    <button onClick={handleClaim} disabled={isPending} className="cursor-pointer">
+      {isPending ? "Claiming..." : "Claim Airdrop"}
+    </button>
+  );
+}
+```
+
+### Merkle Proof Verification
+
+```typescript
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+import { getAddress } from "viem";
+
+// Generate tree from recipients
+const tree = StandardMerkleTree.of(
+  recipients.map((r) => [getAddress(r.address), r.amount]),
+  ["address", "uint256"],
+);
+
+// Get proof for specific recipient
+function getProof(address: string) {
+  const checksummed = getAddress(address);
+  for (const [i, v] of tree.entries()) {
+    if (v[0] === checksummed) {
+      return {
+        index: i,
+        proof: tree.getProof(i),
+        amount: v[1],
+      };
+    }
+  }
+  return null;
+}
+```
+
+### Wallet Connection State Handling
+
+```typescript
+"use client";
+
+import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+
+function ClaimInterface() {
+  const { address, isConnecting, isDisconnected } = useAccount();
+
+  if (isDisconnected) {
+    return (
+      <div>
+        <p>Connect your wallet to claim</p>
+        <ConnectButton />
+      </div>
+    );
+  }
+
+  if (isConnecting) {
+    return <div>Connecting...</div>;
+  }
+
+  return <ClaimButton userAddress={address} />;
+}
+```
 
 ### Common Patterns
 

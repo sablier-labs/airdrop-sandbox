@@ -1,4 +1,4 @@
-# Next.js Template [![NextJS][next-badge]][next] [![Node.js Version][node-badge]][node-url] [![TypeScript Version][typescript-badge]][typescript-url] [![License: MIT][license-badge]][license-url]
+# Sablier Airdrops Sandbox [![NextJS][next-badge]][next] [![Node.js Version][node-badge]][node-url] [![TypeScript Version][typescript-badge]][typescript-url] [![License: MIT][license-badge]][license-url]
 
 [next]: https://nextjs.org/
 [next-badge]: https://img.shields.io/badge/Next-black?style=flat&logo=next.js&logoColor=white
@@ -9,27 +9,48 @@
 [license-badge]: https://img.shields.io/badge/License-MIT-orange.svg
 [license-url]: https://opensource.org/licenses/MIT
 
-A modern Next.js template for building production-ready web applications.
+A production-ready Next.js sandbox for building custom Sablier airdrop claim frontends.
 
 ![Artwork](./artwork.jpg)
 
 ## What's Inside
 
-This template provides:
+This sandbox provides:
 
-- **[Next.js v15](https://nextjs.org)** - with App Router and React v19
-- **[Vercel](https://vercel.com/guides/how-can-i-use-github-actions-with-vercel)** - for hosting and CI deployments
+- **[Sablier v2.0 Airdrops](https://docs.sablier.com/contracts/v2/reference/airdrops/overview)** — Sablier Airdrops
+  contracts integration
+- **[wagmi](https://wagmi.sh)** — React hooks for Ethereum interactions
+- **[viem](https://viem.sh)** — TypeScript interface for Ethereum
+- **[RainbowKit](https://rainbowkit.com)** — wallet connection UI components
+- **[Merkle Tree](https://github.com/OpenZeppelin/merkle-tree)** — OpenZeppelin Merkle tree utilities for proof
+  generation
+- **[Next.js v15](https://nextjs.org)** — with App Router and React v19
 - **[TypeScript v5](https://typescriptlang.org)** — type safety and enhanced developer experience
 - **[Tailwind CSS v4](https://tailwindcss.com)** — utility-first CSS framework for rapid styling
 - **[Bun](https://bun.sh)** — fast package manager and JavaScript runtime
 - **[BiomeJS](https://biomejs.dev)** — lightning-fast linting and formatting for TypeScript and JSON
-- **[Prettier](https://prettier.io)** — code formatting for Markdown and YAML files
 - **[Just](https://just.systems)** — command runner for streamlined task automation
-- **[Husky](https://typicode.github.io/husky)** - automated Git hooks for code quality
-- **[Knip](https://github.com/webpro/knip)** — unused code and dependency detection
-- **[Claude Code](https://anthropic.com/claude-code)** — `CLAUDE.md` file and MCP servers configuration
 
-Optimized for developer productivity and application performance.
+Optimized for building custom airdrop claim frontends with Sablier v2.0.
+
+## Customization
+
+This sandbox is designed to be customized for your specific airdrop campaign. See
+**[CUSTOMIZATION.md](./CUSTOMIZATION.md)** for the complete guide.
+
+### Key Customization Areas
+
+- **Campaign Configuration** — airdrop contract address, token details, claim periods
+- **Recipient Data** — Merkle tree generation from your recipient list
+- **Styling & Branding** — customize colors, logos, and UI components
+- **Claim Flow** — modify the claim process and user experience
+- **Eligibility Checks** — add custom eligibility logic before claiming
+
+Look for `// CUSTOMIZE:` comments throughout the codebase for specific customization points.
+
+> [!TIP]
+>
+> Start with the [Quick Start Guide](./CUSTOMIZATION.md#quick-start-guide) in the customization docs.
 
 > [!NOTE]
 >
@@ -37,36 +58,38 @@ Optimized for developer productivity and application performance.
 
 ## Getting Started
 
-Click the [`Use this template`](https://github.com/PaulRBerg/next-template/generate) button to create a new repository.
+### Prerequisites
 
-Or clone manually:
+Before starting, you'll need:
 
-```bash
-git clone https://github.com/PaulRBerg/next-template.git my-app
-cd my-app
-```
+- A [WalletConnect Project ID](https://cloud.walletconnect.com/) (required for RainbowKit)
+- Your airdrop campaign details (contract address, Merkle root, recipient list)
 
-And then run:
+### Installation
+
+Install dependencies:
 
 ```bash
 bun install
 bun husky
-just --list
 ```
 
-New to Next.js? Check out these resources:
+### Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Next.js GitHub repository](https://github.com/vercel/next.js)
+1. Copy the example environment file and add your WalletConnect Project ID:
 
-## Prerequisites
+```bash
+cp .env.local.example .env.local
+# Edit .env.local and add your WalletConnect Project ID
+```
 
-- [Bun](https://bun.sh)
-- [Ni](https://github.com/antfu-collective/ni)
-- [Just](https://just.systems)
+Get a free WalletConnect Project ID at [cloud.walletconnect.com](https://cloud.walletconnect.com/)
 
-## Usage
+2. Update the campaign configuration in `app/lib/config/campaign.ts` with your airdrop details
+
+3. Generate your Merkle tree from recipient data (see [Merkle Tree Guide](./CUSTOMIZATION.md#merkle-tree-generation))
+
+### Development
 
 Start the development server:
 
@@ -74,7 +97,23 @@ Start the development server:
 just dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view your application.
+Open [http://localhost:3000](http://localhost:3000) to view your airdrop claim interface.
+
+### Resources
+
+- **[Customization Guide](./CUSTOMIZATION.md)** — Complete guide for customizing this sandbox
+- [Sablier Airdrops Documentation](https://docs.sablier.com/contracts/v2/reference/airdrops/overview)
+- [wagmi Documentation](https://wagmi.sh)
+- [RainbowKit Documentation](https://rainbowkit.com)
+- [Next.js Documentation](https://nextjs.org/docs)
+
+## Development Tools
+
+Required tools:
+
+- [Bun](https://bun.sh)
+- [Ni](https://github.com/antfu-collective/ni)
+- [Just](https://just.systems)
 
 ### Vercel Deployment
 
@@ -136,22 +175,34 @@ Run `just` to see all available commands.
 └── tsconfig.json          # TypeScript configuration
 ```
 
-## Customization
+## Detailed Customization
 
-### Styling
+For comprehensive customization instructions, see **[CUSTOMIZATION.md](./CUSTOMIZATION.md)**. The guide covers:
 
-Customize the design system by editing:
+- [Campaign Configuration](./CUSTOMIZATION.md#campaign-configuration) — contract setup, token details, distribution
+  types
+- [Recipient Data Setup](./CUSTOMIZATION.md#recipient-data-setup) — loading from JSON, CSV, API, or blockchain events
+- [Merkle Tree Generation](./CUSTOMIZATION.md#merkle-tree-generation) — creating and verifying merkle trees
+- [Styling and Branding](./CUSTOMIZATION.md#styling-and-branding) — colors, logos, typography
+- [UI Components](./CUSTOMIZATION.md#ui-components) — customizing the claim flow and messaging
+- [Environment Variables](./CUSTOMIZATION.md#environment-variables) — configuration and security
+- [Deployment Guide](./CUSTOMIZATION.md#deployment-guide) — Vercel, self-hosting, CI/CD
+- [Testing Checklist](./CUSTOMIZATION.md#testing-checklist) — pre-deployment validation
+- [Advanced Customization](./CUSTOMIZATION.md#advanced-customization) — multi-campaign support, analytics, rate limiting
 
-- `app/globals.css` — global styles and Tailwind directives
-- `postcss.config.js` — PostCSS configuration
+### Quick Customization
 
-### Linting and Formatting
+For basic styling changes:
 
-Code quality is enforced with Biome. See `biome.jsonc` for configuration.
+- `app/globals.css` — global styles, colors, and Tailwind directives
+- `app/lib/config/campaign.ts` — campaign configuration
+- `app/page.tsx` — hero section and UI text
 
-### Dead Code Detection
+### Code Quality
 
-Knip detects unused dependencies and exports. See `knip.jsonc` for configuration.
+- **Linting and Formatting**: Enforced with Biome (see `biome.jsonc`)
+- **Dead Code Detection**: Knip detects unused dependencies and exports (see `knip.jsonc`)
+- **Type Safety**: Strict TypeScript mode enabled
 
 ## Deployment
 

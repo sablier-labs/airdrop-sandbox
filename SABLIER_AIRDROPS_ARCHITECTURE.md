@@ -1,14 +1,14 @@
-# Sablier Airdrops v2.0 - Technical Architecture
+# Sablier Airdrops - Technical Architecture
 
 ## Overview
 
-Sablier Airdrops v2.0 is a production-grade smart contract system for distributing ERC-20 tokens using Merkle tree-based
+Sablier Airdrops is a production-grade smart contract system for distributing ERC-20 tokens using Merkle tree-based
 verification. The system supports multiple distribution models ranging from instant claims to sophisticated vesting
 schedules.
 
 **Repository:** https://github.com/sablier-labs/airdrops/tree/v2.0 **Package:** `@sablier/airdrops` **Security:**
 Audited by Cantina and independent auditors **Dependencies:** OpenZeppelin Contracts v5.3.0, PRB Math v4.1.0, Sablier
-Lockup v2.0
+Lockup
 
 ---
 
@@ -446,7 +446,7 @@ index,address,amount
 
 ### OpenZeppelin Compatibility
 
-Sablier v2.0 uses **OpenZeppelin Contracts v5.3.0**.
+Sablier uses **OpenZeppelin Contracts v5.3.0**.
 
 **Merkle Proof Verification:**
 
@@ -609,7 +609,7 @@ await merkleContract.claimViaSig(index, recipient, to, amount, validFrom, proof,
 
 ### Sablier Lockup Integration
 
-- Lockup campaigns (LL, LT) require deployed Sablier Lockup v2.0 contract
+- Lockup campaigns (LL, LT) require deployed Sablier Lockup contract
 - Lockup contract address must be provided in constructor
 - Streams inherit cancelability and transferability settings
 

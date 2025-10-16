@@ -21,7 +21,14 @@ Sablier's Merkle contracts.
 - **Language**: TypeScript (strict mode)
 - **Web3**: viem, wagmi, RainbowKit
 - **Merkle Trees**: OpenZeppelin SDK
-- **Package Manager**: Bun
+- **Package Manager**: bun
+
+## Prerequisites
+
+Before getting started, ensure you have the following CLI tools installed:
+
+- **[bun](https://bun.sh)** - Fast all-in-one JavaScript runtime and package manager
+- **[just](https://github.com/casey/just)** - Command runner for project tasks
 
 ## Quick Start
 

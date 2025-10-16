@@ -2,18 +2,6 @@
 import "./node_modules/@sablier/devkit/just/base.just"
 
 # ---------------------------------------------------------------------------- #
-#                                 DEPENDENCIES                                 #
-# ---------------------------------------------------------------------------- #
-
-# Bun: https://github.com/oven-sh/bun
-bun := require("bun")
-
-# Ni: https://github.com/antfu-collective/ni
-na := require("na")
-ni := require("ni")
-nlx := require("nlx")
-
-# ---------------------------------------------------------------------------- #
 #                                    SCRIPTS                                   #
 # ---------------------------------------------------------------------------- #
 
@@ -27,9 +15,9 @@ clean:
 
 # Deploy website to Vercel
 deploy environment="production":
-    na vercel pull --environment={{ environment }} --token=$VERCEL_TOKEN --yes
-    na vercel build --prod --token=$VERCEL_TOKEN
-    na vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+    bun vercel pull --environment={{ environment }} --token=$VERCEL_TOKEN --yes
+    bun vercel build --prod --token=$VERCEL_TOKEN
+    bun vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
 alias d := deploy
 
 # ---------------------------------------------------------------------------- #
@@ -39,15 +27,15 @@ alias d := deploy
 # Start the Next.js app
 [group("app")]
 @build:
-    na next build
+    bun next build
 
 # Start the Next.js app in dev mode
 [group("app")]
 @dev:
-    na next dev --turbopack
+    bun next dev --turbopack
 
 # Build and start the Next.js app
 [group("app")]
 start: build
-    na next start
+    bun next start
 

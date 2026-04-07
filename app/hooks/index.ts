@@ -10,11 +10,7 @@ export { useClaimAirdrop } from "./useClaimAirdrop";
 export { useClaimableAmount } from "./useClaimableAmount";
 
 // Eligibility and status hooks
-export {
-  useClaimEligibility,
-  useClaimFee,
-  useIsClaimed,
-} from "./useClaimEligibility";
+export { useClaimFee } from "./useClaimFee";
 export { useClaimStatus } from "./useClaimStatus";
 export { useClaimWithFee } from "./useClaimWithFee";
 export { useSimulateClaim } from "./useSimulateClaim";

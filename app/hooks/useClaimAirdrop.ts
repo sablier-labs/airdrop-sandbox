@@ -70,6 +70,9 @@ export function useClaimAirdrop() {
     if (!address) {
       throw new Error("Wallet not connected");
     }
+    if (!contractAddress) {
+      throw new Error("Airdrop contract address is not configured");
+    }
 
     writeContract({
       abi: AIRDROP_ABI,

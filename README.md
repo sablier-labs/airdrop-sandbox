@@ -12,7 +12,7 @@ Sablier's Merkle contracts.
 - ✅ Claim eligibility checking
 - 💸 Token claiming with transaction tracking
 - 🎨 Customizable branding and messaging
-- 🔒 Compatible with Sablier Airdrops v2.0 contracts
+- 🔒 Compatible with Sablier Airdrops v3.0 contracts
 
 ## Tech Stack
 
@@ -95,11 +95,13 @@ The Merkle root from this output must match the root used when deploying your Sa
 
 ## Contract Compatibility
 
-Compatible with Sablier Airdrops v2.0:
+Compatible with Sablier Airdrops v3.0:
 
 - SablierMerkleInstant
 - SablierMerkleLL (Linear Lockup)
 - SablierMerkleLT (Tranched Lockup)
+- SablierMerkleVCA (Variable Claim Amount)
+- SablierMerkleExecute (Claim + Execute)
 
 ## Deployment
 
@@ -123,6 +125,10 @@ This project is licensed under the MIT License - see [LICENSE.MD](./LICENSE.MD).
 
 ## Disclaimer
 
-This software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
+This software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the
+warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the authors or
+copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or
+otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
 
-Users are solely responsible for ensuring the correctness and security of their airdrop configurations, Merkle trees, and smart contract deployments.
+Users are solely responsible for ensuring the correctness and security of their airdrop configurations, Merkle trees,
+and smart contract deployments.

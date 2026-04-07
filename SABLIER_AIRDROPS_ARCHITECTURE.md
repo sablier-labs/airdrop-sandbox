@@ -6,7 +6,7 @@ Sablier Airdrops is a production-grade smart contract system for distributing ER
 verification. The system supports multiple distribution models ranging from instant claims to sophisticated vesting
 schedules.
 
-**Repository:** https://github.com/sablier-labs/airdrops/tree/v2.0 **Package:** `@sablier/airdrops` **Security:**
+**Repository:** https://github.com/sablier-labs/airdrops/tree/v3.0 **Package:** `@sablier/airdrops` **Security:**
 Audited by Cantina and independent auditors **Dependencies:** OpenZeppelin Contracts v5.3.0, PRB Math v4.1.0, Sablier
 Lockup
 
@@ -667,7 +667,7 @@ await merkleContract.claimViaSig(index, recipient, to, amount, validFrom, proof,
 # Clone repository
 git clone https://github.com/sablier-labs/airdrops.git
 cd airdrops
-git checkout v2.0
+git checkout v3.0
 
 # Install dependencies
 bun install

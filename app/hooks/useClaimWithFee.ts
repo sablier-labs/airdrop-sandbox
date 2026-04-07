@@ -1,6 +1,6 @@
 import type { Hex } from "viem";
 import { useClaimAirdrop } from "./useClaimAirdrop";
-import { useClaimFee } from "./useClaimEligibility";
+import { useClaimFee } from "./useClaimFee";
 
 /**
  * Enhanced claim hook that automatically includes the claim fee

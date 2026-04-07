@@ -1,6 +1,6 @@
 # Merkle Tree Generator
 
-Generate Merkle trees compatible with Sablier Airdrops v2.0 contracts.
+Generate Merkle trees compatible with Sablier Airdrops v3.0 contracts.
 
 ## Usage
 
@@ -79,5 +79,5 @@ The script performs these checks:
 Generated trees are compatible with:
 
 - OpenZeppelin's Merkle Proof Solidity library
-- Sablier Airdrops v2.0 contracts
+- Sablier Airdrops v3.0 contracts
 - OpenZeppelin Merkle Tree JavaScript SDK

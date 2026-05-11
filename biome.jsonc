@@ -1,8 +1,8 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": ["@sablier/devkit/biome"],
+  "extends": ["@sablier/devkit/biome/base", "@sablier/devkit/biome/ui"],
   "files": {
-    "includes": ["**/*.{js,jsx,json,jsonc,ts,tsx}"]
+    "includes": ["**/*.{css,js,jsx,json,jsonc,mjs,ts,tsx}"]
   },
   "formatter": {
     "lineWidth": 100
@@ -17,10 +17,30 @@
         "noImportantStyles": "off",
         "noStaticOnlyClass": "off"
       },
+      "style": {
+        "useConsistentTypeDefinitions": {
+          "level": "warn",
+          "options": {
+            "style": "type"
+          }
+        }
+      },
       "suspicious": {
         "noArrayIndexKey": "off",
         "noControlCharactersInRegex": "off"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["app/api/**", "scripts/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    }
+  ]
 }

@@ -2,7 +2,7 @@
  * IPFS Merkle tree data structure
  * Follows Sablier's standard IPFS format
  */
-export interface IpfsMerkleData {
+export type IpfsMerkleData = {
   /** Stringified StandardMerkleTree JSON */
   merkle_tree: string;
   /** Total number of recipients */
@@ -16,4 +16,4 @@ export interface IpfsMerkleData {
   root: string;
   /** Total amount allocated */
   total_amount: string;
-}
+};

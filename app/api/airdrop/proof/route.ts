@@ -3,34 +3,43 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import type { Hex } from "viem";
 import { isAddress } from "viem";
-import type { ClaimData, ProofApiResponse } from "@/types/airdrop.types";
-import type { IpfsMerkleData } from "@/types/ipfs.types";
+import type { ClaimData, ProofApiResponse } from "@/lib/types/airdrop.types";
+import type { IpfsMerkleData } from "@/lib/types/ipfs.types";
 
-// In-memory cache for the Merkle tree
-// Avoids fetching from IPFS on every request
-let cachedTree: StandardMerkleTree<[string, string, string]> | null = null;
+type AirdropTree = StandardMerkleTree<[string, string, string]>;
+
+type CachedAirdropTree = {
+  tree: AirdropTree;
+  /** Lowercase address -> treeIndex; built once per tree load for O(1) lookup. */
+  addressIndex: Map<string, number>;
+};
+
+// In-memory cache for the Merkle tree and its address index.
+// Avoids fetching from IPFS on every request and scanning all leaves per lookup.
+let cached: CachedAirdropTree | null = null;
+
+function arraysEqual(a: unknown, b: readonly string[]): boolean {
+  if (!Array.isArray(a) || a.length !== b.length) return false;
+  return a.every((value, index) => value === b[index]);
+}
 
 /**
- * Fetches and loads Merkle tree from IPFS
- * Caches the tree in memory for subsequent requests
+ * Fetches and loads Merkle tree from IPFS.
+ * Caches the tree plus a lowercase-address index in memory for subsequent requests.
  */
-async function getMerkleTree(): Promise<StandardMerkleTree<[string, string, string]>> {
-  // Return cached tree if available
-  if (cachedTree) {
-    return cachedTree;
+async function getMerkleTree(): Promise<CachedAirdropTree> {
+  if (cached) {
+    return cached;
   }
 
   const ipfsUrl = process.env.NEXT_PUBLIC_MERKLE_TREE_IPFS_URL;
-
   if (!ipfsUrl) {
     throw new Error("NEXT_PUBLIC_MERKLE_TREE_IPFS_URL is not configured");
   }
 
   console.log("Fetching Merkle tree from IPFS:", ipfsUrl);
 
-  // Fetch from IPFS
   const response = await fetch(ipfsUrl, {
-    // Add timeout and cache headers
     next: { revalidate: 3600 }, // Cache for 1 hour
   });
 
@@ -40,29 +49,43 @@ async function getMerkleTree(): Promise<StandardMerkleTree<[string, string, stri
 
   const data: IpfsMerkleData = await response.json();
 
-  // The merkle_tree field is a stringified JSON
-  const treeData = JSON.parse(data.merkle_tree);
-
-  // Fix missing leafEncoding field (OpenZeppelin requires this)
-  if (!treeData.leafEncoding) {
-    treeData.leafEncoding = ["uint256", "address", "uint256"];
+  let treeData: { leafEncoding?: unknown; [key: string]: unknown };
+  try {
+    treeData = JSON.parse(data.merkle_tree);
+  } catch (parseError) {
+    throw new Error("IPFS payload contains malformed merkle_tree JSON", { cause: parseError });
   }
 
-  // Verify leaf encoding matches expected format
+  // Leaf format: [index, address, amount]. OpenZeppelin requires `leafEncoding`;
+  // some legacy uploads omit it, so backfill with the canonical Sablier format and
+  // warn if a non-canonical encoding is supplied so we don't silently mis-load.
   const expectedEncoding = ["uint256", "address", "uint256"];
-  if (JSON.stringify(treeData.leafEncoding) !== JSON.stringify(expectedEncoding)) {
+  if (!treeData.leafEncoding) {
+    treeData.leafEncoding = expectedEncoding;
+  } else if (!arraysEqual(treeData.leafEncoding, expectedEncoding)) {
     console.warn("Unexpected leaf encoding:", treeData.leafEncoding);
   }
 
-  // Load the tree (leaf format: [index, address, amount])
-  cachedTree = StandardMerkleTree.load(treeData);
+  // `StandardMerkleTree.load` validates the payload at runtime; the IPFS-sourced
+  // JSON cannot be statically typed, so we route it through `unknown`.
+  const tree = StandardMerkleTree.load(
+    treeData as unknown as Parameters<typeof StandardMerkleTree.load<[string, string, string]>>[0],
+  );
+
+  // Build a lowercase-address -> treeIndex map for O(1) lookup.
+  const addressIndex = new Map<string, number>();
+  for (const [treeIndex, [, entryAddress]] of tree.entries()) {
+    addressIndex.set(entryAddress.toLowerCase(), treeIndex);
+  }
+
+  cached = { addressIndex, tree };
 
   console.log("Merkle tree loaded successfully:", {
     recipients: data.number_of_recipients,
     root: data.root,
   });
 
-  return cachedTree;
+  return cached;
 }
 
 /**
@@ -85,36 +108,32 @@ export async function GET(request: NextRequest): Promise<NextResponse<ProofApiRe
     }
 
     // Fetch tree from IPFS (cached after first request)
-    const tree = await getMerkleTree();
+    const { tree, addressIndex } = await getMerkleTree();
 
-    // Search for the address in the tree
-    // Leaf structure: [index, address, amount]
-    for (const [treeIndex, value] of tree.entries()) {
-      const [index, entryAddress, entryAmount] = value;
-
-      // Case-insensitive address comparison
-      if (entryAddress.toLowerCase() === address.toLowerCase()) {
-        const proof = tree.getProof(treeIndex);
-
-        const claimData: ClaimData = {
-          amount: entryAmount,
-          index: Number(index), // Use index from leaf data
-          proof: proof as Hex[],
-        };
-
-        return NextResponse.json({ data: claimData });
-      }
+    const treeIndex = addressIndex.get(address.toLowerCase());
+    if (treeIndex === undefined) {
+      return NextResponse.json({ error: "Address not eligible" }, { status: 404 });
     }
 
-    // Address not found in tree
-    return NextResponse.json({ error: "Address not eligible" }, { status: 404 });
+    // Leaf structure: [index, address, amount]
+    const [leafIndex, , entryAmount] = tree.at(treeIndex) ?? [];
+    if (leafIndex === undefined || entryAmount === undefined) {
+      // Defensive: index map and tree are built in lockstep so this should never trigger.
+      throw new Error("Merkle tree address index is out of sync with the tree");
+    }
+
+    const claimData: ClaimData = {
+      amount: entryAmount,
+      index: Number(leafIndex),
+      proof: tree.getProof(treeIndex) as Hex[],
+    };
+
+    return NextResponse.json({ data: claimData });
   } catch (error) {
+    // Log full error server-side; never echo raw error details to the client to avoid
+    // leaking IPFS URLs, env var names, or stack-derived info.
     console.error("Error generating proof:", error);
-
-    // Return detailed error in development
-    const errorMessage = error instanceof Error ? error.message : "Internal server error";
-
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -124,11 +143,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<ProofApiRe
  */
 export async function OPTIONS() {
   return new NextResponse(null, {
+    status: 200,
     headers: {
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "GET, OPTIONS",
       "Access-Control-Allow-Origin": "*",
     },
-    status: 200,
   });
 }

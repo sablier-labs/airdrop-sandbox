@@ -2,7 +2,7 @@ import type { Address } from "viem";
 import { useAccount, useReadContract } from "wagmi";
 import { AIRDROP_ABI, getAirdropContractAddress, getChainId } from "@/lib/contracts/airdrop";
 
-interface UseClaimStatusReturn {
+type UseClaimStatusReturn = {
   address: Address | undefined;
   isConnected: boolean;
   isClaimed: boolean;
@@ -11,7 +11,7 @@ interface UseClaimStatusReturn {
   error: Error | null;
   refetch: () => void;
   canClaim: boolean;
-}
+};
 
 /**
  * Checks if the connected wallet can claim for a given Merkle tree index.

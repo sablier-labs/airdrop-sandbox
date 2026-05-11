@@ -1,6 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
-import type { ClaimData, ProofApiResponse } from "@/types/airdrop.types";
+import type { ClaimData, ProofApiResponse } from "@/lib/types/airdrop.types";
+
+const PROOF_QUERY_DEFAULTS = {
+  gcTime: 600_000, // 10 minutes
+  retry: 3,
+  staleTime: 300_000, // 5 minutes — proof doesn't change
+  retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 10_000),
+} as const;
 
 /**
  * Fetches Merkle proof for a given address
@@ -58,16 +65,13 @@ export function useAirdropProof() {
     error,
     refetch,
   } = useQuery({
-    enabled: isConnected && !!address,
-    gcTime: 600_000, // 10 minutes
+    ...PROOF_QUERY_DEFAULTS,
+    enabled: isConnected && Boolean(address),
+    queryKey: ["airdrop-proof", address],
     queryFn: () => {
       if (!address) throw new Error("Address is required");
       return fetchProof(address);
     },
-    queryKey: ["airdrop-proof", address],
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
-    staleTime: 300_000, // 5 minutes - proof doesn't change
   });
 
   return {
@@ -114,16 +118,13 @@ export function useAirdropProofForAddress(targetAddress: string | undefined, ena
     error,
     refetch,
   } = useQuery({
-    enabled: enabled && !!targetAddress,
-    gcTime: 600_000,
+    ...PROOF_QUERY_DEFAULTS,
+    enabled: enabled && Boolean(targetAddress),
+    queryKey: ["airdrop-proof", targetAddress],
     queryFn: () => {
       if (!targetAddress) throw new Error("Address is required");
       return fetchProof(targetAddress);
     },
-    queryKey: ["airdrop-proof", targetAddress],
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
-    staleTime: 300_000,
   });
 
   return {

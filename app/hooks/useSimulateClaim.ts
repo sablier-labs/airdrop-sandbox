@@ -55,10 +55,15 @@ export function useSimulateClaim(
         : undefined,
     chainId,
     functionName: "claim",
-    query: {
-      enabled: enabled && !!address && index !== undefined && amount !== undefined && !!proof,
-    },
     value: claimFee,
+    query: {
+      enabled:
+        enabled &&
+        Boolean(address) &&
+        index !== undefined &&
+        amount !== undefined &&
+        Boolean(proof),
+    },
   });
 
   return {
@@ -71,6 +76,6 @@ export function useSimulateClaim(
     /** Simulation result with gas estimate */
     simulationResult,
     /** Whether the transaction will succeed */
-    willSucceed: !isError && !!simulationResult,
+    willSucceed: !isError && Boolean(simulationResult),
   };
 }

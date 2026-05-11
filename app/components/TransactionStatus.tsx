@@ -1,46 +1,26 @@
 "use client";
 
-import { tv } from "tailwind-variants";
-import { getChainId } from "@/lib/contracts/airdrop";
-import type { TransactionState } from "@/types/airdrop.types";
+import { getChainId, getExplorerTxUrl } from "@/lib/contracts/airdrop";
+import type { TransactionState } from "@/lib/types/airdrop.types";
+import { transactionStatusVariants } from "./TransactionStatus.variants";
+
+type Status = "error" | "confirmed" | "confirming" | "writing" | "idle";
 
 /**
- * Transaction status component styles
- *
- * CUSTOMIZATION POINT: Modify status colors and icons
+ * Resolve the current transaction status from the boolean flags.
+ * Order matters: error first, then terminal success, then in-flight states.
  */
-const statusStyles = tv({
-  base: "rounded-lg border p-4",
-  defaultVariants: {
-    status: "idle",
-  },
-  variants: {
-    status: {
-      confirmed: "border-green-300 bg-green-50 dark:border-green-800 dark:bg-green-950",
-      confirming: "border-blue-300 bg-blue-50 dark:border-blue-800 dark:bg-blue-950",
-      error: "border-red-300 bg-red-50 dark:border-red-800 dark:bg-red-950",
-      idle: "border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900",
-      writing: "border-yellow-300 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950",
-    },
-  },
-});
-
-/**
- * Get block explorer URL for a transaction
- *
- * CUSTOMIZATION POINT: Add support for other networks
- */
-function getBlockExplorerUrl(hash: `0x${string}`, chainId: number): string {
-  const explorers: Record<number, string> = {
-    1: "https://etherscan.io/tx",
-    137: "https://polygonscan.com/tx",
-    8453: "https://basescan.org/tx",
-    42161: "https://arbiscan.io/tx",
-    11155111: "https://sepolia.etherscan.io/tx", // Sepolia
-  };
-
-  const baseUrl = explorers[chainId] || "https://etherscan.io/tx";
-  return `${baseUrl}/${hash}`;
+function resolveStatus({
+  error,
+  isConfirmed,
+  isConfirming,
+  isWriting,
+}: Pick<TransactionState, "error" | "isConfirmed" | "isConfirming" | "isWriting">): Status {
+  if (error) return "error";
+  if (isConfirmed) return "confirmed";
+  if (isConfirming) return "confirming";
+  if (isWriting) return "writing";
+  return "idle";
 }
 
 /**
@@ -70,15 +50,7 @@ export function TransactionStatus({
   const chainId = getChainId();
 
   // Determine current status
-  const status = error
-    ? "error"
-    : isConfirmed
-      ? "confirmed"
-      : isConfirming
-        ? "confirming"
-        : isWriting
-          ? "writing"
-          : "idle";
+  const status = resolveStatus({ error, isConfirmed, isConfirming, isWriting });
 
   // Don't render if idle (no transaction started)
   if (status === "idle") {
@@ -86,7 +58,7 @@ export function TransactionStatus({
   }
 
   return (
-    <div className={statusStyles({ status })}>
+    <div className={transactionStatusVariants({ status })}>
       {/* Writing - Waiting for wallet approval */}
       {isWriting && (
         <div className="flex items-center gap-3">
@@ -108,10 +80,10 @@ export function TransactionStatus({
             <p className="font-semibold text-blue-900 dark:text-blue-100">Confirming Transaction</p>
             <p className="text-sm text-blue-700 dark:text-blue-300">Hash: {shortenHash(hash)}</p>
             <a
-              href={getBlockExplorerUrl(hash, chainId)}
-              target="_blank"
-              rel="noopener noreferrer"
               className="mt-1 inline-block text-sm font-medium text-blue-600 underline cursor-pointer dark:text-blue-400"
+              href={getExplorerTxUrl(hash, chainId)}
+              rel="noopener noreferrer"
+              target="_blank"
             >
               View on block explorer →
             </a>
@@ -129,10 +101,10 @@ export function TransactionStatus({
             Hash: {shortenHash(hash)}
           </p>
           <a
-            href={getBlockExplorerUrl(hash, chainId)}
-            target="_blank"
-            rel="noopener noreferrer"
             className="mt-2 inline-block text-sm font-medium text-green-600 underline cursor-pointer dark:text-green-400"
+            href={getExplorerTxUrl(hash, chainId)}
+            rel="noopener noreferrer"
+            target="_blank"
           >
             View on block explorer →
           </a>
@@ -181,10 +153,10 @@ export function TransactionStatusCompact({
       <span className="text-sm text-blue-600 dark:text-blue-400">
         ⌛ Confirming...{" "}
         <a
-          href={getBlockExplorerUrl(hash, chainId)}
-          target="_blank"
-          rel="noopener noreferrer"
           className="underline cursor-pointer"
+          href={getExplorerTxUrl(hash, chainId)}
+          rel="noopener noreferrer"
+          target="_blank"
         >
           View
         </a>
@@ -197,10 +169,10 @@ export function TransactionStatusCompact({
       <span className="text-sm text-green-600 dark:text-green-400">
         ✓ Confirmed{" "}
         <a
-          href={getBlockExplorerUrl(hash, chainId)}
-          target="_blank"
-          rel="noopener noreferrer"
           className="underline cursor-pointer"
+          href={getExplorerTxUrl(hash, chainId)}
+          rel="noopener noreferrer"
+          target="_blank"
         >
           View
         </a>

@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   title: "Sablier Airdrops Sandbox",
 };
 
+// The app is wallet-driven (wagmi + RainbowKit); skip static prerendering so wagmi/wallet
+// connectors don't fail when localStorage/window are unavailable at build time.
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{

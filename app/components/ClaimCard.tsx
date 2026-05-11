@@ -1,37 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { tv } from "tailwind-variants";
 import { parseUnits } from "viem";
-import { useAirdropProof, useClaimableAmount, useClaimStatus, useClaimWithFee } from "@/hooks";
-import { ConnectWallet } from "./connect-wallet";
-import { TransactionStatus } from "./transaction-status";
+import {
+  useAirdropProof,
+  useClaimableAmount,
+  useClaimStatus,
+  useClaimWithFee,
+  useHasExpired,
+  useIpfsCID,
+  useMinFeeUSD,
+} from "@/hooks";
+import { getChainId, getExplorerTxUrl } from "@/lib/contracts/airdrop";
+import { claimCardVariants } from "./ClaimCard.variants";
+import { ConnectWallet } from "./ConnectWallet";
+import { TransactionStatus } from "./TransactionStatus";
 
-/**
- * Claim card component styles
- *
- * CUSTOMIZATION POINT: Modify card styling to match your brand
- */
-const claimCardStyles = tv({
-  slots: {
-    amount: "mb-6 text-center",
-    amountLabel: "mt-2 text-sm text-gray-500",
-    amountValue: "text-4xl font-bold text-blue-600 dark:text-blue-400",
-    button:
-      "w-full cursor-pointer rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50",
-    card: "rounded-xl border bg-white p-6 shadow-lg dark:bg-gray-900",
-    description: "mb-6 text-gray-600 dark:text-gray-400",
-    error:
-      "rounded-lg border border-red-300 bg-red-50 p-4 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-200",
-    info: "rounded-lg border border-blue-300 bg-blue-50 p-4 text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-200",
-    status: "mb-4 rounded-lg border p-4",
-    success:
-      "rounded-lg border border-green-300 bg-green-50 p-4 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200",
-    title: "mb-4 text-2xl font-bold",
-  },
-});
-
-interface ClaimCardProps {
+type ClaimCardProps = {
   /** Token symbol (e.g., "SAPIEN") */
   tokenSymbol?: string;
   /** Token decimals (default: 18) */
@@ -40,22 +24,13 @@ interface ClaimCardProps {
   title?: string;
   /** Campaign description */
   description?: string;
-}
+};
 
 /**
  * Main claim card component
- * Orchestrates wallet connection, proof fetching, and claim transaction
+ * Orchestrates wallet connection, proof fetching, expiration check, and claim transaction.
  *
  * CUSTOMIZATION POINT: Modify messaging and behavior
- *
- * @example
- * ```tsx
- * <ClaimCard
- *   tokenSymbol="SAPIEN"
- *   title="Friends of Sapien Airdrop"
- *   description="Claim your SAPIEN tokens"
- * />
- * ```
  */
 export function ClaimCard({
   tokenSymbol = "tokens",
@@ -63,10 +38,10 @@ export function ClaimCard({
   title = "Claim Your Airdrop",
   description = "Connect your wallet to check eligibility and claim your tokens.",
 }: ClaimCardProps) {
-  const styles = claimCardStyles();
-  const [showSuccess, setShowSuccess] = useState(false);
+  const styles = claimCardVariants();
 
-  // Fetch proof for connected wallet
+  const chainId = getChainId();
+
   const {
     proof,
     isEligible,
@@ -74,38 +49,25 @@ export function ClaimCard({
     isError: isProofError,
     error: proofError,
   } = useAirdropProof();
-
-  // Get formatted amount
   const { formatted: amountFormatted } = useClaimableAmount(tokenDecimals);
-
-  // Check if already claimed
   const { isClaimed, isLoading: isCheckingClaim, isConnected } = useClaimStatus(proof?.index);
-
-  // Claim transaction
   const { claim, isPending, isConfirmed, hash, errorMessage, transactionState } = useClaimWithFee();
 
-  // Handle claim button click
+  const { hasExpired } = useHasExpired();
+  const { formatted: minFeeFormatted, minFeeUSD } = useMinFeeUSD();
+  const { ipfsCID } = useIpfsCID();
+
   const handleClaim = () => {
     if (!proof) return;
-
     const amount = parseUnits(proof.amount, tokenDecimals);
     claim(BigInt(proof.index), amount, proof.proof);
   };
 
-  // Show success message when confirmed
-  if (isConfirmed && !showSuccess) {
-    setShowSuccess(true);
-  }
-
-  // Loading states
   const isLoading = isLoadingProof || isCheckingClaim;
 
   return (
     <div className={styles.card()}>
-      {/* Title */}
       <h2 className={styles.title()}>{title}</h2>
-
-      {/* Description */}
       <p className={styles.description()}>{description}</p>
 
       {/* Step 1: Connect Wallet */}
@@ -117,7 +79,7 @@ export function ClaimCard({
               Connect with MetaMask or Rabby to check your eligibility.
             </p>
           </div>
-          <ConnectWallet variant="primary" size="lg" />
+          <ConnectWallet size="lg" variant="primary" />
         </div>
       )}
 
@@ -129,8 +91,19 @@ export function ClaimCard({
         </div>
       )}
 
+      {/* Campaign Expired */}
+      {isConnected && !isLoading && hasExpired && (
+        <div className={styles.warning()}>
+          <p className="font-semibold">Airdrop Expired</p>
+          <p className="mt-1 text-sm">
+            The claim window for this airdrop has closed. Unclaimed tokens can no longer be
+            distributed.
+          </p>
+        </div>
+      )}
+
       {/* Error fetching proof */}
-      {isConnected && isProofError && (
+      {isConnected && !hasExpired && isProofError && (
         <div className={styles.error()}>
           <p className="font-semibold">Error Checking Eligibility</p>
           <p className="mt-1 text-sm">
@@ -140,11 +113,10 @@ export function ClaimCard({
       )}
 
       {/* Not Eligible */}
-      {isConnected && !isLoading && !isEligible && !isProofError && (
+      {isConnected && !isLoading && !hasExpired && !isEligible && !isProofError && (
         <div className={styles.info()}>
           <p className="font-semibold">Not Eligible</p>
           <p className="mt-1 text-sm">
-            {/* CUSTOMIZATION POINT: Custom not-eligible message */}
             Your address is not eligible for this airdrop. Please check the eligibility
             requirements.
           </p>
@@ -152,38 +124,36 @@ export function ClaimCard({
       )}
 
       {/* Already Claimed */}
-      {isConnected && isEligible && isClaimed && (
+      {isConnected && !hasExpired && isEligible && isClaimed && (
         <div className={styles.success()}>
           <p className="font-semibold">Already Claimed ✓</p>
           <p className="mt-1 text-sm">You have already claimed your {tokenSymbol} tokens.</p>
         </div>
       )}
 
-      {/* Step 3: Eligible - Show Amount and Claim Button */}
-      {isConnected && isEligible && !isClaimed && !isConfirmed && (
+      {/* Step 3: Eligible — Show Amount and Claim Button */}
+      {isConnected && !hasExpired && isEligible && !isClaimed && !isConfirmed && (
         <div className="space-y-6">
-          {/* Amount Display */}
           <div className={styles.amount()}>
             <div className={styles.amountValue()}>{amountFormatted}</div>
             <div className={styles.amountLabel()}>{tokenSymbol} available to claim</div>
           </div>
 
-          {/* Transaction Status */}
           <TransactionStatus {...transactionState} />
 
-          {/* Claim Button */}
           {!isPending && !isConfirmed && (
             <button
-              type="button"
-              onClick={handleClaim}
-              disabled={isPending}
               className={styles.button()}
+              disabled={isPending}
+              onClick={handleClaim}
+              type="button"
             >
               Claim {tokenSymbol}
             </button>
           )}
 
-          {/* Error Message */}
+          {minFeeUSD > 0n && <p className={styles.fee()}>Minimum claim fee: {minFeeFormatted}</p>}
+
           {errorMessage && (
             <div className={styles.error()}>
               <p className="font-semibold">Transaction Failed</p>
@@ -198,20 +168,33 @@ export function ClaimCard({
         <div className={styles.success()}>
           <p className="text-xl font-semibold">Claim Successful! 🎉</p>
           <p className="mt-2 text-sm">
-            {/* CUSTOMIZATION POINT: Success message and next steps */}
             You have successfully claimed {amountFormatted} {tokenSymbol}.
           </p>
           {hash && (
             <a
-              href={`https://etherscan.io/tx/${hash}`}
-              target="_blank"
-              rel="noopener noreferrer"
               className="mt-3 inline-block cursor-pointer text-sm font-medium underline"
+              href={getExplorerTxUrl(hash, chainId)}
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              View on Etherscan →
+              View transaction →
             </a>
           )}
         </div>
+      )}
+
+      {ipfsCID && (
+        <p className={styles.footer()}>
+          Merkle tree:{" "}
+          <a
+            className="cursor-pointer font-mono underline"
+            href={`https://ipfs.io/ipfs/${ipfsCID}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {ipfsCID.slice(0, 12)}…{ipfsCID.slice(-6)}
+          </a>
+        </p>
       )}
     </div>
   );

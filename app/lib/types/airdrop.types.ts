@@ -3,14 +3,14 @@ import type { Address, Hex } from "viem";
 /**
  * Merkle proof data returned from API
  */
-export interface ClaimData {
+export type ClaimData = {
   /** Index in the Merkle tree */
   index: number;
   /** Amount of tokens eligible to claim */
   amount: string;
   /** Merkle proof array */
   proof: Hex[];
-}
+};
 
 /**
  * Claim status enumeration
@@ -34,9 +34,9 @@ export enum ClaimStatus {
 
 /**
  * Airdrop campaign metadata
- * CUSTOMIZATION POINT: Modify this interface to add custom campaign fields
+ * CUSTOMIZATION POINT: Modify this type to add custom campaign fields
  */
-export interface AirdropCampaign {
+export type AirdropCampaign = {
   /** Campaign name */
   name: string;
   /** Campaign description */
@@ -57,12 +57,12 @@ export interface AirdropCampaign {
   totalRecipients?: number;
   /** Total amount allocated */
   totalAmount?: string;
-}
+};
 
 /**
  * Transaction state for claim operation
  */
-export interface TransactionState {
+export type TransactionState = {
   /** Transaction hash */
   hash?: Hex;
   /** Waiting for wallet approval */
@@ -73,17 +73,17 @@ export interface TransactionState {
   isConfirmed: boolean;
   /** Error if any */
   error: Error | null;
-}
+};
 
 /**
  * API response for proof endpoint
  */
-export interface ProofApiResponse {
+export type ProofApiResponse = {
   /** Success response */
   data?: ClaimData;
   /** Error response */
   error?: string;
-}
+};
 
 // Re-export IPFS types for convenience
 export type { IpfsMerkleData } from "./ipfs.types";

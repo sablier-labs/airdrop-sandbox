@@ -1,7 +1,4 @@
-// Buttons
-export { Button } from "./button";
-
-// Cards
+export { Button } from "./Button";
 export {
   Card,
   CardBody,
@@ -10,4 +7,4 @@ export {
   CardHeader,
   CardTitle,
   type CardVariants,
-} from "./card";
+} from "./Card";

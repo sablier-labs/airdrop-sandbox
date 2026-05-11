@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { z } from "zod";
-import { Button } from "./ui/button";
+import { Button } from "./ui/Button";
 
 const emailSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -46,7 +46,7 @@ export function ContactForm() {
         <p className="text-sm text-green-800 dark:text-green-200">
           ✅ Thanks for subscribing! We'll keep you updated.
         </p>
-        <Button variant="ghost" size="sm" onClick={() => setIsSubmitted(false)} className="mt-2">
+        <Button className="mt-2" onClick={() => setIsSubmitted(false)} size="sm" variant="ghost">
           Subscribe another email
         </Button>
       </div>
@@ -54,7 +54,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
+    <form className="space-y-3" onSubmit={handleSubmit}>
       <div className="text-center">
         <h3 className="font-semibold">Stay Updated</h3>
         <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -64,16 +64,16 @@ export function ContactForm() {
 
       <div className="space-y-2">
         <input
-          type="email"
-          value={email}
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your.email@example.com"
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800"
+          type="email"
+          value={email}
         />
         {errors.email && <p className="text-sm text-red-600 dark:text-red-400">{errors.email}</p>}
       </div>
 
-      <Button type="submit" disabled={isLoading} className="w-full" size="sm">
+      <Button className="w-full" disabled={isLoading} size="sm" type="submit">
         {isLoading ? "Subscribing..." : "Subscribe"}
       </Button>
     </form>

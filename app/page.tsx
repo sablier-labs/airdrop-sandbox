@@ -1,5 +1,5 @@
-import { ClaimCard } from "@/components/claim-card";
-import { ConnectWallet } from "@/components/connect-wallet";
+import { ClaimCard } from "@/components/ClaimCard";
+import { ConnectWallet } from "@/components/ConnectWallet";
 
 /**
  * Airdrop Claim Page
@@ -28,7 +28,7 @@ export default function Home() {
           </div>
 
           {/* Wallet Connection */}
-          <ConnectWallet variant="primary" size="md" />
+          <ConnectWallet size="md" variant="primary" />
         </div>
       </header>
 
@@ -47,10 +47,10 @@ export default function Home() {
         {/* Claim Card */}
         <div className="mx-auto max-w-lg">
           <ClaimCard
-            tokenSymbol="TOKEN"
-            tokenDecimals={18}
-            title="Community Airdrop"
             description="Thank you for being an early supporter. Connect your wallet to claim your tokens."
+            title="Community Airdrop"
+            tokenDecimals={18}
+            tokenSymbol="TOKEN"
           />
         </div>
 
@@ -128,26 +128,26 @@ export default function Home() {
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
             {/* CUSTOMIZATION POINT: Add your links */}
             <a
-              href="https://docs.sablier.com"
-              target="_blank"
-              rel="noopener noreferrer"
               className="cursor-pointer transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+              href="https://docs.sablier.com"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Documentation
             </a>
             <a
-              href="https://github.com/sablier-labs"
-              target="_blank"
-              rel="noopener noreferrer"
               className="cursor-pointer transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+              href="https://github.com/sablier-labs"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               GitHub
             </a>
             <a
-              href="https://discord.gg/sablier"
-              target="_blank"
-              rel="noopener noreferrer"
               className="cursor-pointer transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+              href="https://discord.gg/sablier"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Support
             </a>
@@ -155,10 +155,10 @@ export default function Home() {
           <p className="mt-4 text-xs text-gray-500 dark:text-gray-600">
             Powered by{" "}
             <a
-              href="https://sablier.com"
-              target="_blank"
-              rel="noopener noreferrer"
               className="cursor-pointer font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+              href="https://sablier.com"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Sablier
             </a>

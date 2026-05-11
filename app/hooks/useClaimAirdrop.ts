@@ -1,8 +1,8 @@
 import type { BaseError, Hex } from "viem";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { AIRDROP_ABI, getAirdropContractAddress, getChainId } from "@/lib/contracts/airdrop";
+import type { TransactionState } from "@/lib/types/airdrop.types";
 import { handleContractError } from "@/lib/utils/errors";
-import type { TransactionState } from "@/types/airdrop.types";
 
 /**
  * Hook to claim tokens from the airdrop contract
@@ -45,7 +45,7 @@ export function useClaimAirdrop() {
     error: writeError,
     isPending: isWriting,
     writeContract,
-    reset: resetWrite,
+    reset,
   } = useWriteContract();
 
   // Wait for confirmation
@@ -66,7 +66,7 @@ export function useClaimAirdrop() {
    * @param proof - Merkle proof array
    * @param claimFee - Optional claim fee (defaults to 0)
    */
-  const claim = async (index: bigint, amount: bigint, proof: Hex[], claimFee = 0n) => {
+  const claim = (index: bigint, amount: bigint, proof: Hex[], claimFee = 0n) => {
     if (!address) {
       throw new Error("Wallet not connected");
     }
@@ -82,14 +82,6 @@ export function useClaimAirdrop() {
       functionName: "claim",
       value: claimFee, // Include claim fee as msg.value
     });
-  };
-
-  /**
-   * Reset the transaction state
-   * Useful for allowing users to retry after an error
-   */
-  const reset = () => {
-    resetWrite();
   };
 
   // Combine errors

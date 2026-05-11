@@ -10,10 +10,10 @@ dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-interface TimestampProps {
+type TimestampProps = {
   date?: string | Date;
   label?: string;
-}
+};
 
 export function Timestamp({ date = dayjs().toDate(), label = "Last updated" }: TimestampProps) {
   const [showRelative, setShowRelative] = useState(true);
@@ -34,10 +34,10 @@ export function Timestamp({ date = dayjs().toDate(), label = "Last updated" }: T
 
   return (
     <button
-      type="button"
-      onClick={() => setShowRelative(!showRelative)}
       className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors cursor-pointer"
+      onClick={() => setShowRelative(!showRelative)}
       title="Click to toggle between relative and absolute time"
+      type="button"
     >
       {label}: {showRelative ? relativeTime : absoluteTime}
     </button>

@@ -9,9 +9,11 @@ identify and resolve the root cause.
 
 ## Tech Stack
 
-- **Framework**: Next.js 15+ (App Router)
-- **Styling**: Tailwind CSS
+- **Framework**: Next.js 16 (App Router, React Compiler enabled)
+- **UI**: React 19, Tailwind CSS v4, tailwind-variants
 - **Language**: TypeScript (strict mode)
+- **Web3**: wagmi 2 + viem + RainbowKit; Sablier SDK (`sablier`) for chain metadata and ABIs
+- **Airdrop protocol**: Sablier Airdrops **v3.0** — ABIs from `sablier/evm/releases/airdrops/v3.0`
 - **Package Manager**: bun
 - **Task Runner**: just (casey/just)
 - **Linter and Formatter for TypeScript and JSON**: Biome (not Prettier)
@@ -44,16 +46,19 @@ just tsc-check  # TypeScript validation only
 
 ### File Structure
 
-- Components in `app/components/`
+- Components in `app/components/` — PascalCase filenames (e.g. `ClaimCard.tsx`)
+- Co-locate Tailwind-variants `tv()` definitions in a sibling `*.variants.ts` (e.g. `ClaimCard.variants.ts`)
 - API routes in `app/api/`
-- Shared utilities in `app/lib/`
-- Types in `app/types/`
+- Shared utilities in `app/lib/utils/`
+- Shared types in `app/lib/types/` (`.types.ts` suffix)
+- `cn()` class-merge helper in `app/lib/variants.ts`
+- Airdrop ABI + chain helpers in `app/lib/contracts/airdrop.ts`
 - Keep components small and focused (single responsibility)
 
 ### TypeScript
 
 - Always use strict mode
-- Prefer `interface` over `type` for object shapes
+- Prefer `type` over `interface` for object shapes
 - Use `satisfies` operator for type-safe constants
 - Avoid `any`; use `unknown` if type is truly unknown
 - Export types from dedicated `.types.ts` files
@@ -95,10 +100,13 @@ just tsc-check  # TypeScript validation only
 
 #### Component Variants with Tailwind Variants
 
+Define `tv()` in a sibling `*.variants.ts` file and consume from the component.
+
 ```typescript
+// Button.variants.ts
 import { tv } from "tailwind-variants";
 
-const button = tv({
+export const buttonVariants = tv({
   base: "font-medium rounded-lg transition-colors cursor-pointer",
   variants: {
     variant: {
@@ -111,11 +119,22 @@ const button = tv({
       lg: "px-6 py-3 text-lg",
     },
   },
-  defaultVariants: {
-    variant: "primary",
-    size: "md",
-  },
+  defaultVariants: { variant: "primary", size: "md" },
 });
+
+// Button.tsx
+import { cn } from "@/lib/variants";
+import { buttonVariants } from "./Button.variants";
+```
+
+#### Sablier SDK usage
+
+```typescript
+import { sablier } from "sablier";
+import { release } from "sablier/evm/releases/airdrops/v3.0";
+
+const AIRDROP_ABI = release.abi.SablierMerkleInstant;
+const explorer = sablier.chains.get(chainId)?.blockExplorers?.default?.url;
 ```
 
 #### Data Fetching (Server Component)

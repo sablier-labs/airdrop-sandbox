@@ -2,19 +2,20 @@ import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet, rabbyWallet } from "@rainbow-me/rainbowkit/wallets";
 import { http } from "viem";
 import { mainnet, sepolia } from "viem/chains";
-import { createConfig } from "wagmi";
+import { cookieStorage, createConfig, createStorage } from "wagmi";
 
-// Get WalletConnect Project ID from environment
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
-if (!projectId) {
-  throw new Error("NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set");
+if (!projectId && typeof window !== "undefined") {
+  // Warn in the browser instead of throwing during SSR/SSG; wallet connect just won't work
+  // until the env var is provided.
+  // biome-ignore lint/suspicious/noConsole: intentional dev-time warning for missing env var
+  console.warn("NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set");
 }
 
-// Only initialize connectors on client-side to avoid SSR indexedDB issues
-// On server, return empty array - wagmi will handle this gracefully
+// Connectors only initialize on the client to avoid SSR indexedDB / localStorage issues.
 const connectors =
-  typeof window !== "undefined"
+  typeof window !== "undefined" && projectId
     ? connectorsForWallets(
         [
           {
@@ -29,16 +30,15 @@ const connectors =
       )
     : [];
 
-// Create Wagmi config
 export const wagmiConfig = createConfig({
   chains: [mainnet, sepolia],
   connectors,
-  ssr: true, // Enable for Next.js SSR
+  ssr: true,
+  storage: createStorage({ storage: cookieStorage }),
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),
   },
 });
 
-// Re-export chains for convenience
 export { mainnet, sepolia };
